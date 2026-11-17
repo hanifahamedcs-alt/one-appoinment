@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SlotBook AI — More time for your people.</title>
+  <title>CareSlot Clinic — Dr. Consultation &amp; 15-Min Slot Portal</title>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Google Fonts: Inter -->
@@ -18,18 +18,19 @@
             sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
           },
           colors: {
-            brand: {
-              50: '#f5f3ff',
-              100: '#ede9fe',
-              200: '#ddd6fe',
-              500: '#7c3aed',
-              600: '#6d28d9',
-              700: '#5b21b6',
+            teal: {
+              50: '#f0fdfa',
+              100: '#ccfbf1',
+              200: '#99f6e4',
+              500: '#14b8a6',
+              600: '#0d9488',
+              700: '#0f766e',
+              800: '#115e59',
             }
           },
           boxShadow: {
             'soft': '0 4px 24px -2px rgba(15, 23, 42, 0.05), 0 2px 6px -1px rgba(15, 23, 42, 0.03)',
-            'card': '0 10px 35px -5px rgba(15, 23, 42, 0.07), 0 4px 12px -2px rgba(15, 23, 42, 0.03)',
+            'card': '0 10px 35px -5px rgba(15, 23, 42, 0.06), 0 4px 12px -2px rgba(15, 23, 42, 0.03)',
           }
         }
       }
@@ -38,19 +39,17 @@
   <style>
     body {
       font-family: 'Inter', sans-serif;
-      background-color: #FAFAFB;
+      background-color: #F8FAFC;
       color: #0F172A;
       -webkit-font-smoothing: antialiased;
     }
-    /* Smooth view transitions */
     .fade-in {
-      animation: fadeIn 0.25s ease-out forwards;
+      animation: fadeIn 0.22s ease-out forwards;
     }
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(6px); }
+      from { opacity: 0; transform: translateY(5px); }
       to { opacity: 1; transform: translateY(0); }
     }
-    /* Custom subtle scrollbars */
     ::-webkit-scrollbar {
       width: 6px;
       height: 6px;
@@ -64,427 +63,355 @@
     }
   </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between selection:bg-brand-100 selection:text-brand-700">
+<body class="min-h-screen flex flex-col justify-between selection:bg-teal-100 selection:text-teal-800">
 
-  <!-- Top Navigation Bar -->
-  <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200/80">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-      <!-- Brand Logo -->
-      <button onclick="switchMainView('hero')" class="flex items-center gap-2.5 text-left group focus:outline-none">
-        <div class="w-9 h-9 rounded-xl bg-brand-600 flex items-center justify-center text-white shadow-sm group-hover:bg-brand-700 transition">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
-            <rect x="3" y="4" width="18" height="18" rx="4" />
-            <path d="M16 2v4M8 2v4M3 10h18" />
-            <path d="M9 15l2 2 4-4" stroke-linecap="round" stroke-linejoin="round" />
+  <!-- TOP NAVIGATION BAR -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-3">
+      <!-- Clinic Brand Logo -->
+      <button onclick="switchMainView('patient')" class="flex items-center gap-3 text-left group focus:outline-none">
+        <div class="w-10 h-10 rounded-2xl bg-teal-600 flex items-center justify-center text-white shadow-sm group-hover:bg-teal-700 transition">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.3" viewBox="0 0 24 24">
+            <path d="M12 6v12M6 12h12" stroke-linecap="round" />
+            <rect x="3" y="3" width="18" height="18" rx="5" />
           </svg>
         </div>
-        <div class="flex items-center gap-1.5">
-          <span class="font-bold text-lg tracking-tight text-slate-900">SlotBook</span>
-          <span class="text-[11px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-md bg-brand-50 text-brand-600 border border-brand-200/70">AI</span>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="font-extrabold text-base sm:text-lg tracking-tight text-slate-900">CareSlot Clinic</span>
+            <span class="hidden sm:inline-block text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-teal-50 text-teal-700 border border-teal-200">
+              15-Min Consults
+            </span>
+          </div>
+          <p class="text-[11px] text-slate-500 font-medium hidden sm:block">Dr. Arvind Rao • General &amp; Orthopedic Care</p>
         </div>
       </button>
 
-      <!-- Navigation / View Mode Switcher -->
-      <div class="flex items-center gap-2 sm:gap-3">
-        <button id="navCustomerBtn" onclick="switchMainView('booking')" class="px-3.5 py-2 rounded-xl text-sm font-semibold transition flex items-center gap-1.5 text-slate-600 hover:text-slate-900 hover:bg-slate-100">
-          <svg class="w-4 h-4 text-brand-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <circle cx="12" cy="12" r="9" />
-            <path d="M12 7v5l3 2" stroke-linecap="round" />
+      <!-- Dual View Toggle Switcher -->
+      <div class="flex items-center bg-slate-100 p-1 rounded-2xl border border-slate-200/70">
+        <button id="navPatientBtn" onclick="switchMainView('patient')" class="px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition flex items-center gap-2">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <rect x="3" y="4" width="18" height="18" rx="3" />
+            <path d="M16 2v4M8 2v4M3 10h18" />
           </svg>
-          <span>Book Appointment</span>
+          <span>Patient Booking</span>
         </button>
 
-        <button id="navProviderBtn" onclick="switchMainView('provider')" class="px-3.5 py-2 rounded-xl text-sm font-semibold border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 transition flex items-center gap-2 shadow-2xs">
-          <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <rect x="3" y="3" width="7" height="7" rx="1.5" />
-            <rect x="14" y="3" width="7" height="7" rx="1.5" />
-            <rect x="3" y="14" width="7" height="7" rx="1.5" />
-            <rect x="14" y="14" width="7" height="7" rx="1.5" />
+        <button id="navAdminBtn" onclick="switchMainView('admin')" class="px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition flex items-center gap-2">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" stroke-linecap="round" />
           </svg>
-          <span>Provider workspace</span>
-          <span id="providerBadgeCount" class="ml-0.5 px-1.5 py-0.2 text-xs font-bold rounded-full bg-brand-100 text-brand-700">0</span>
+          <span>Doctor / Admin</span>
+          <span id="adminBadgeCount" class="px-1.5 py-0.2 text-[11px] font-bold rounded-full bg-teal-600 text-white">0</span>
         </button>
       </div>
     </div>
   </header>
 
-  <!-- Toast / Inline Notification Banner -->
+  <!-- INLINE TOAST NOTIFICATION -->
   <div id="toastBanner" class="fixed bottom-5 right-5 z-50 hidden transform transition-all duration-300">
     <div class="bg-slate-900 text-white px-4 py-3 rounded-2xl shadow-xl flex items-center gap-3 text-sm font-medium border border-slate-700">
-      <span id="toastIcon" class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
+      <span class="w-2.5 h-2.5 rounded-full bg-teal-400"></span>
       <span id="toastMessage">Action completed</span>
     </div>
   </div>
 
-  <!-- MAIN CONTENT CONTAINER -->
+  <!-- MAIN CONTENT AREA -->
   <main class="flex-grow">
 
-    <!-- ========================================================= -->
-    <!-- 1. HERO / LANDING VIEW                                    -->
-    <!-- ========================================================= -->
-    <section id="view-hero" class="fade-in max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-20">
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-10 items-center">
-        
-        <!-- Left Hero Copy -->
-        <div class="lg:col-span-6 space-y-6">
-          <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-50 border border-brand-200/80 text-brand-700 text-xs font-semibold">
-            <span class="w-2 h-2 rounded-full bg-brand-600 animate-pulse"></span>
-            Built for Salons, Tutors &amp; Independent Coaches
+    <!-- =================================================================== -->
+    <!-- 1. PATIENT BOOKING PORTAL (STRICT 7-DAY WINDOW & 15-MIN SLOTS)      -->
+    <!-- =================================================================== -->
+    <section id="view-patient" class="fade-in max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-7 sm:py-10">
+
+      <!-- Doctor Profile & Policy Banner -->
+      <div class="bg-white rounded-3xl border border-slate-200/90 shadow-soft p-5 sm:p-6 mb-7 flex flex-col md:flex-row md:items-center justify-between gap-5">
+        <div class="flex items-start sm:items-center gap-4">
+          <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-teal-500 to-teal-700 text-white flex items-center justify-center font-extrabold text-xl shrink-0 shadow-sm">
+            DR
           </div>
-
-          <h1 class="text-4xl sm:text-5xl lg:text-[56px] font-extrabold tracking-tight text-slate-900 leading-[1.08]">
-            More time for <br class="hidden sm:inline" />your people.
-          </h1>
-
-          <p class="text-base sm:text-lg text-slate-600 leading-relaxed max-w-xl">
-            A calmer way to book appointments. Customers pick a service and a time, you get a clean live schedule to manage—without back-and-forth messages.
-          </p>
-
-          <!-- Primary CTA Row -->
-          <div class="pt-2 flex flex-wrap items-center gap-3.5">
-            <button onclick="startBookingFlow()" class="px-6 py-3.5 rounded-2xl bg-brand-600 hover:bg-brand-700 text-white font-semibold text-sm sm:text-base shadow-md shadow-brand-600/20 transition transform active:scale-[0.99] flex items-center gap-2">
-              <span>Find a time</span>
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
-                <path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round" />
-              </svg>
-            </button>
-
-            <button onclick="switchMainView('provider')" class="px-6 py-3.5 rounded-2xl bg-white hover:bg-slate-50 text-slate-800 font-semibold text-sm sm:text-base border border-slate-200 shadow-2xs transition flex items-center gap-2">
-              <span>Provider workspace</span>
-            </button>
-          </div>
-
-          <!-- Subtle Trust Indicators -->
-          <div class="pt-6 border-t border-slate-200/70 flex flex-wrap items-center gap-6 text-xs font-medium text-slate-500">
-            <div class="flex items-center gap-1.5">
-              <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
-                <path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" />
-              </svg>
-              <span>Instant slot locking</span>
-            </div>
-            <div class="flex items-center gap-1.5">
-              <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
-                <path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" />
-              </svg>
-              <span>Zero double-bookings</span>
-            </div>
-            <div class="flex items-center gap-1.5">
-              <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
-                <path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" />
-              </svg>
-              <span>Custom service catalog</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right Interactive Live Schedule Preview Widget -->
-        <div class="lg:col-span-6">
-          <div class="bg-white rounded-3xl border border-slate-200/90 shadow-card p-5 sm:p-7 relative overflow-hidden">
-            <!-- Decorative subtle gradient top accent -->
-            <div class="absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-brand-500 via-indigo-500 to-purple-500"></div>
-
-            <div class="flex items-center justify-between mb-5">
-              <div>
-                <span class="text-[11px] font-bold uppercase tracking-wider text-brand-600">Live Schedule Preview</span>
-                <h2 class="text-xl font-bold text-slate-900 mt-0.5">Your schedule</h2>
-              </div>
-              <span id="heroPreviewMonthLabel" class="text-xs font-semibold px-3 py-1.5 rounded-xl bg-slate-100 text-slate-700">
-                November 2026
+          <div>
+            <div class="flex flex-wrap items-center gap-2">
+              <h1 class="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">Dr. Arvind Rao, MBBS, MD</h1>
+              <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                Accepting 15-Min Slots
               </span>
             </div>
-
-            <!-- Interactive Mini Calendar Grid -->
-            <div class="bg-slate-50/80 rounded-2xl p-4 border border-slate-200/60 mb-5">
-              <div class="grid grid-cols-7 text-center text-[11px] font-semibold text-slate-400 mb-2">
-                <span>SUN</span><span>MON</span><span>TUE</span><span>WED</span><span>THU</span><span>FRI</span><span>SAT</span>
-              </div>
-              <div id="heroMiniCalendarGrid" class="grid grid-cols-7 gap-1.5 text-center">
-                <!-- Populated dynamically by JS -->
-              </div>
-            </div>
-
-            <!-- Upcoming Appointments Preview List for Selected Preview Day -->
-            <div>
-              <div class="flex items-center justify-between mb-3">
-                <span id="heroPreviewDateTitle" class="text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                  Appointments on Selected Day
-                </span>
-                <button onclick="startBookingFlow()" class="text-xs font-semibold text-brand-600 hover:text-brand-700">
-                  + Book slot
-                </button>
-              </div>
-              <div id="heroScheduleList" class="space-y-2.5 max-h-52 overflow-y-auto pr-1">
-                <!-- Populated dynamically by JS -->
-              </div>
-            </div>
+            <p class="text-xs sm:text-sm text-slate-500 mt-1">
+              General Physician &amp; Musculoskeletal Specialist • CareSlot Medical Center
+            </p>
           </div>
         </div>
 
-      </div>
-    </section>
-
-    <!-- ========================================================= -->
-    <!-- 2. STEP-BY-STEP CUSTOMER BOOKING FLOW                     -->
-    <!-- ========================================================= -->
-    <section id="view-booking" class="hidden fade-in max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
-      
-      <!-- Top Header & 3-Step Progress Indicator -->
-      <div class="mb-8">
-        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 pb-6 border-b border-slate-200/80">
-          <div>
-            <button onclick="switchMainView('hero')" class="text-xs font-semibold text-slate-500 hover:text-slate-800 inline-flex items-center gap-1 mb-2">
-              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path d="M15 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round" />
-              </svg>
-              Back to overview
-            </button>
-            <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">Find your time.</h1>
-            <p class="text-sm text-slate-500 mt-1">Select a service, pick an open slot, and lock in your session.</p>
+        <!-- 7-Day Rolling Policy Pill -->
+        <div class="flex flex-wrap items-center gap-2.5 text-xs">
+          <div class="px-3.5 py-2 rounded-2xl bg-teal-50/80 border border-teal-200/80 text-teal-800 font-semibold flex items-center gap-2">
+            <svg class="w-4 h-4 text-teal-600 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="9" />
+              <path d="M12 7v5l3 2" stroke-linecap="round" />
+            </svg>
+            <span>15-Minute Consultation Slots</span>
           </div>
-
-          <!-- 3-Step Progress Pills -->
-          <div id="bookingStepper" class="flex items-center gap-2 sm:gap-3 bg-white p-2 rounded-2xl border border-slate-200/80 shadow-2xs self-start md:self-auto">
-            <button onclick="goToBookingStep(1)" id="stepPill-1" class="flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-semibold transition">
-              <span class="w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold">1</span>
-              <span>Service</span>
-            </button>
-            <svg class="w-4 h-4 text-slate-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            <button onclick="goToBookingStep(2)" id="stepPill-2" class="flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-semibold transition">
-              <span class="w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold">2</span>
-              <span>Date &amp; Time</span>
-            </button>
-            <svg class="w-4 h-4 text-slate-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            <button onclick="goToBookingStep(3)" id="stepPill-3" class="flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-semibold transition">
-              <span class="w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold">3</span>
-              <span>Your Details</span>
-            </button>
+          <div class="px-3.5 py-2 rounded-2xl bg-slate-100 border border-slate-200/80 text-slate-700 font-semibold">
+            7-Day Advance Window Only
           </div>
         </div>
       </div>
 
-      <!-- Booking Split Grid (Left Main Area + Persistent Right Summary Sidebar) -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        
-        <!-- LEFT COLUMN (8 cols) -->
-        <div class="lg:col-span-8">
-          
-          <!-- STEP 1: SELECT A SERVICE -->
-          <div id="booking-step-1" class="space-y-4">
-            <!-- Category Filter Bar -->
-            <div class="flex flex-wrap items-center justify-between gap-3 mb-2">
-              <div id="serviceCategoryFilters" class="flex flex-wrap items-center gap-2">
+      <!-- Patient Flow Grid: Left Interactive Steps (8 cols) + Right Summary Card (4 cols) -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-7 items-start">
+
+        <!-- LEFT COLUMN (8 COLS) -->
+        <div class="lg:col-span-8 space-y-6">
+
+          <!-- STEP 1 & STEP 2 CONTAINER (HIDDEN ON CONFIRMATION) -->
+          <div id="patientBookingWorkspace" class="space-y-6">
+
+            <!-- STEP 1: SELECT DATE WITHIN 1 WEEK & 15-MIN TIME SLOT -->
+            <div class="bg-white rounded-3xl border border-slate-200/90 shadow-soft p-5 sm:p-7">
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b border-slate-100">
+                <div>
+                  <span class="text-[11px] font-bold uppercase tracking-wider text-teal-600">Step 1 of 2</span>
+                  <h2 class="text-lg sm:text-xl font-bold text-slate-900">Select a Date (Next 7 Days) &amp; 15-Min Slot</h2>
+                </div>
+                <span class="text-xs text-slate-500 font-medium">Daily hours vary by doctor schedule</span>
+              </div>
+
+              <!-- 7-Day Rolling Date Strip -->
+              <div class="mt-5">
+                <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2.5">
+                  Available Dates (1-Week Rolling Window)
+                </label>
+                <div id="sevenDayStrip" class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-2.5">
+                  <!-- Populated dynamically by JS -->
+                </div>
+              </div>
+
+              <!-- Selected Day Schedule Banner -->
+              <div id="dayHoursBanner" class="mt-5 p-3.5 rounded-2xl bg-slate-50 border border-slate-200/70 flex flex-wrap items-center justify-between gap-2 text-xs">
                 <!-- Populated dynamically -->
               </div>
-              <span class="text-xs text-slate-500 font-medium" id="serviceCountLabel">Showing all services</span>
-            </div>
 
-            <!-- Services List -->
-            <div id="servicesGrid" class="space-y-3.5">
-              <!-- Populated dynamically -->
-            </div>
-          </div>
-
-          <!-- STEP 2: CHOOSE DATE & TIME -->
-          <div id="booking-step-2" class="hidden space-y-6">
-            <div class="bg-white rounded-3xl border border-slate-200/90 shadow-soft p-5 sm:p-7">
-              <div class="grid grid-cols-1 md:grid-cols-12 gap-8">
-                
-                <!-- Calendar Date Picker (6 cols) -->
-                <div class="md:col-span-6">
-                  <div class="flex items-center justify-between mb-4">
-                    <h3 class="text-base font-bold text-slate-900">Choose a date</h3>
-                    <div class="flex items-center gap-1">
-                      <button onclick="changeBookingMonth(-1)" class="p-1.5 rounded-xl hover:bg-slate-100 text-slate-600 transition" aria-label="Previous Month">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                      </button>
-                      <span id="bookingCalendarMonthLabel" class="text-sm font-semibold text-slate-800 min-w-[125px] text-center">November 2026</span>
-                      <button onclick="changeBookingMonth(1)" class="p-1.5 rounded-xl hover:bg-slate-100 text-slate-600 transition" aria-label="Next Month">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                      </button>
-                    </div>
-                  </div>
-
-                  <div class="grid grid-cols-7 text-center text-[11px] font-semibold text-slate-400 mb-2">
-                    <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
-                  </div>
-                  <div id="bookingCalendarGrid" class="grid grid-cols-7 gap-1.5 text-center">
-                    <!-- Populated dynamically -->
-                  </div>
-                  <p class="text-[11px] text-slate-400 mt-3 flex items-center gap-1.5">
-                    <span class="w-2 h-2 rounded-full bg-brand-600 inline-block"></span>
-                    Past dates are unavailable for booking.
-                  </p>
-                </div>
-
-                <!-- Available Time Slots Grid (6 cols) -->
-                <div class="md:col-span-6 md:border-l md:border-slate-100 md:pl-7">
-                  <div class="flex items-center justify-between mb-4">
-                    <h3 class="text-base font-bold text-slate-900">Available times</h3>
-                    <span id="selectedDateReadableBadge" class="text-xs font-semibold text-brand-700 bg-brand-50 px-2.5 py-1 rounded-lg">
-                      Select a date
-                    </span>
-                  </div>
-
-                  <div id="timeSlotsGrid" class="grid grid-cols-2 gap-2.5">
-                    <!-- Populated dynamically -->
+              <!-- 15-Minute Slots Container -->
+              <div class="mt-6">
+                <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+                  <span class="text-xs font-semibold uppercase tracking-wider text-slate-500">
+                    15-Minute Time Slots
+                  </span>
+                  <div class="flex items-center gap-4 text-[11px] font-medium text-slate-500">
+                    <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-sm border border-teal-500 bg-white inline-block"></span> Available</span>
+                    <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-sm bg-teal-600 inline-block"></span> Selected</span>
+                    <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-sm bg-slate-200 inline-block"></span> Booked / Passed</span>
                   </div>
                 </div>
-              </div>
 
-              <!-- Step 2 Navigation Footer -->
-              <div class="mt-8 pt-5 border-t border-slate-100 flex items-center justify-between">
-                <button onclick="goToBookingStep(1)" class="px-4 py-2.5 rounded-xl border border-slate-200 text-slate-700 hover:bg-slate-50 text-sm font-semibold transition">
-                  Back
-                </button>
-                <button id="step2ContinueBtn" onclick="goToBookingStep(3)" disabled class="px-6 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-700 disabled:bg-slate-200 disabled:text-slate-400 disabled:cursor-not-allowed text-white text-sm font-semibold transition flex items-center gap-2 shadow-sm">
-                  <span>Continue</span>
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                </button>
+                <div id="patientSlotsContainer" class="space-y-5">
+                  <!-- Populated dynamically with Morning / Afternoon / Evening 15-min slots -->
+                </div>
               </div>
             </div>
-          </div>
 
-          <!-- STEP 3: YOUR DETAILS FORM -->
-          <div id="booking-step-3" class="hidden">
-            <div class="bg-white rounded-3xl border border-slate-200/90 shadow-soft p-6 sm:p-8">
-              <h2 class="text-xl font-bold text-slate-900">A few details.</h2>
-              <p class="text-sm text-slate-500 mt-1 mb-6">We’ll send your booking confirmation and calendar details right away.</p>
-
-              <form id="customerDetailsForm" onsubmit="handleBookingSubmit(event)" class="space-y-5">
+            <!-- STEP 2: PATIENT DETAILS & MEDICAL PROBLEM FORM -->
+            <div id="patientDetailsSection" class="bg-white rounded-3xl border border-slate-200/90 shadow-soft p-5 sm:p-7 transition-all">
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b border-slate-100 mb-5">
                 <div>
-                  <label for="custName" class="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1.5">Full name *</label>
-                  <input type="text" id="custName" required placeholder="e.g., Ananya Sharma" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-brand-600 focus:ring-4 focus:ring-brand-500/10 outline-none text-sm transition" />
+                  <span class="text-[11px] font-bold uppercase tracking-wider text-teal-600">Step 2 of 2</span>
+                  <h2 class="text-lg sm:text-xl font-bold text-slate-900">Patient Details &amp; Medical Problem</h2>
                 </div>
+                <span id="step2SlotPromptBadge" class="text-xs font-semibold px-3 py-1 rounded-full bg-amber-50 text-amber-700 border border-amber-200">
+                  Select a 15-min slot above first
+                </span>
+              </div>
 
+              <form id="patientBookingForm" onsubmit="handlePatientBookingSubmit(event)" class="space-y-5">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label for="custEmail" class="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1.5">Email address *</label>
-                    <input type="email" id="custEmail" required placeholder="ananya@example.com" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-brand-600 focus:ring-4 focus:ring-brand-500/10 outline-none text-sm transition" />
+                    <label for="patientNameInput" class="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1.5">
+                      Patient Full Name *
+                    </label>
+                    <input
+                      type="text"
+                      id="patientNameInput"
+                      required
+                      placeholder="e.g., Karthik Subramanian"
+                      class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-teal-600 focus:ring-4 focus:ring-teal-500/10 outline-none text-sm transition"
+                    />
                   </div>
+
                   <div>
-                    <label for="custPhone" class="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1.5">Phone number *</label>
-                    <input type="tel" id="custPhone" required placeholder="+91 98765 43210" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-brand-600 focus:ring-4 focus:ring-brand-500/10 outline-none text-sm transition" />
+                    <label for="patientPhoneInput" class="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1.5">
+                      Phone Number *
+                    </label>
+                    <input
+                      type="tel"
+                      id="patientPhoneInput"
+                      required
+                      placeholder="e.g., +91 98765 43210"
+                      class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-teal-600 focus:ring-4 focus:ring-teal-500/10 outline-none text-sm transition"
+                    />
                   </div>
                 </div>
 
                 <div>
-                  <label for="custNotes" class="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1.5">Anything we should know? <span class="text-slate-400 font-normal lowercase">(optional)</span></label>
-                  <textarea id="custNotes" rows="3" placeholder="Share goals, hair type, learning topics, or special requests..." class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-brand-600 focus:ring-4 focus:ring-brand-500/10 outline-none text-sm transition resize-none"></textarea>
+                  <div class="flex flex-wrap items-center justify-between gap-2 mb-1.5">
+                    <label for="patientProblemInput" class="block text-xs font-semibold uppercase tracking-wider text-slate-600">
+                      Medical Problem / Symptoms Description *
+                    </label>
+                    <span class="text-[11px] text-slate-400">Quick-add common symptoms:</span>
+                  </div>
+
+                  <!-- Quick-tap Symptom Pills -->
+                  <div class="flex flex-wrap gap-1.5 mb-2.5">
+                    <button type="button" onclick="appendSymptomTag('Leg pain')" class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 hover:bg-teal-50 hover:text-teal-700 text-slate-600 border border-slate-200/70 transition">
+                      + Leg pain
+                    </button>
+                    <button type="button" onclick="appendSymptomTag('Back pain')" class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 hover:bg-teal-50 hover:text-teal-700 text-slate-600 border border-slate-200/70 transition">
+                      + Back pain
+                    </button>
+                    <button type="button" onclick="appendSymptomTag('Fever & body ache')" class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 hover:bg-teal-50 hover:text-teal-700 text-slate-600 border border-slate-200/70 transition">
+                      + Fever &amp; body ache
+                    </button>
+                    <button type="button" onclick="appendSymptomTag('Knee / joint stiffness')" class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 hover:bg-teal-50 hover:text-teal-700 text-slate-600 border border-slate-200/70 transition">
+                      + Knee / joint stiffness
+                    </button>
+                    <button type="button" onclick="appendSymptomTag('Follow-up consultation')" class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 hover:bg-teal-50 hover:text-teal-700 text-slate-600 border border-slate-200/70 transition">
+                      + Follow-up consultation
+                    </button>
+                  </div>
+
+                  <textarea
+                    id="patientProblemInput"
+                    required
+                    rows="3"
+                    placeholder="Describe your medical problem or symptoms (e.g., leg pain, back pain, duration, severity)..."
+                    class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-teal-600 focus:ring-4 focus:ring-teal-500/10 outline-none text-sm transition resize-none"
+                  ></textarea>
                 </div>
 
-                <div class="pt-4 border-t border-slate-100 flex flex-wrap items-center justify-between gap-3">
-                  <button type="button" onclick="goToBookingStep(2)" class="px-5 py-3 rounded-xl border border-slate-200 text-slate-700 hover:bg-slate-50 text-sm font-semibold transition">
-                    Back
-                  </button>
-                  <button type="submit" id="confirmBookingSubmitBtn" class="px-7 py-3.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold shadow-md shadow-brand-600/20 transition flex items-center gap-2">
-                    <span>Confirm booking</span>
-                    <span id="confirmPriceTag" class="px-2 py-0.5 rounded-md bg-brand-700/80 text-xs font-bold">₹0</span>
+                <div class="pt-2 flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-t border-slate-100">
+                  <p class="text-xs text-slate-500">
+                    Your 15-minute slot is reserved immediately upon confirmation.
+                  </p>
+                  <button
+                    type="submit"
+                    id="confirmPatientBookingBtn"
+                    disabled
+                    class="px-7 py-3.5 rounded-2xl bg-teal-600 hover:bg-teal-700 disabled:bg-slate-200 disabled:text-slate-400 disabled:cursor-not-allowed text-white text-sm font-bold shadow-md shadow-teal-600/20 transition flex items-center justify-center gap-2 shrink-0"
+                  >
+                    <span>Confirm 15-Min Appointment</span>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                      <path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
                   </button>
                 </div>
               </form>
             </div>
           </div>
 
-          <!-- STEP 4 (POST-SUBMIT): BOOKING CONFIRMATION SCREEN -->
-          <div id="booking-confirmation" class="hidden fade-in">
-            <div class="bg-white rounded-3xl border border-slate-200/90 shadow-card p-6 sm:p-10 text-center">
-              <div class="w-16 h-16 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-600 flex items-center justify-center mx-auto mb-5">
-                <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                  <path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
-              </div>
+          <!-- STEP 3: INSTANT CONFIRMATION RECEIPT -->
+          <div id="patientConfirmationScreen" class="hidden fade-in bg-white rounded-3xl border border-slate-200/90 shadow-card p-6 sm:p-10 text-center">
+            <div class="w-16 h-16 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-600 flex items-center justify-center mx-auto mb-5">
+              <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                <path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </div>
 
-              <span class="inline-block px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold uppercase tracking-wider mb-2">
-                Appointment Confirmed
-              </span>
-              <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">You’re all set, <span id="confCustomerName">Guest</span>!</h2>
-              <p class="text-sm text-slate-500 mt-1.5 max-w-md mx-auto">
-                Your slot has been reserved and added to the provider’s live workspace schedule.
-              </p>
+            <span class="inline-block px-3 py-1 rounded-full bg-teal-50 text-teal-700 border border-teal-200 text-xs font-bold uppercase tracking-wider mb-2">
+              Slot Reserved &amp; Locked
+            </span>
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">
+              Appointment Confirmed, <span id="receiptPatientName">Patient</span>!
+            </h2>
+            <p class="text-sm text-slate-500 mt-1.5 max-w-md mx-auto">
+              Please arrive 5 minutes prior to your 15-minute consultation window. Your details are now visible in the Doctor's queue.
+            </p>
 
-              <!-- Booking Ticket Card -->
-              <div class="mt-7 max-w-lg mx-auto bg-slate-50 rounded-2xl border border-slate-200/80 p-5 text-left space-y-3.5">
-                <div class="flex items-center justify-between pb-3 border-b border-slate-200/80">
-                  <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Booking ID</span>
-                  <span id="confBookingId" class="font-mono text-sm font-bold text-brand-700 bg-brand-50 px-2.5 py-1 rounded-lg border border-brand-200/60">#SB-0000</span>
-                </div>
-                <div class="flex justify-between text-sm">
-                  <span class="text-slate-500">Service</span>
-                  <span id="confServiceTitle" class="font-bold text-slate-900">—</span>
-                </div>
-                <div class="flex justify-between text-sm">
-                  <span class="text-slate-500">Date &amp; Time</span>
-                  <span id="confDateTime" class="font-semibold text-slate-900">—</span>
-                </div>
-                <div class="flex justify-between text-sm">
-                  <span class="text-slate-500">Duration</span>
-                  <span id="confDuration" class="font-medium text-slate-700">—</span>
-                </div>
-                <div class="flex justify-between text-sm pt-2 border-t border-slate-200/80">
-                  <span class="text-slate-500">Total Amount</span>
-                  <span id="confPrice" class="font-extrabold text-slate-900 text-base">₹0</span>
-                </div>
+            <!-- Receipt Ticket Card -->
+            <div class="mt-7 max-w-lg mx-auto bg-slate-50 rounded-2xl border border-slate-200/90 p-5 text-left space-y-3.5">
+              <div class="flex items-center justify-between pb-3 border-b border-slate-200/80">
+                <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Appointment Token</span>
+                <span id="receiptTokenId" class="font-mono text-sm font-extrabold text-teal-700 bg-teal-50 px-3 py-1 rounded-lg border border-teal-200">#DR-0000</span>
               </div>
+              <div class="flex justify-between text-sm">
+                <span class="text-slate-500">Doctor</span>
+                <span class="font-bold text-slate-900">Dr. Arvind Rao</span>
+              </div>
+              <div class="flex justify-between text-sm">
+                <span class="text-slate-500">Date</span>
+                <span id="receiptDate" class="font-semibold text-slate-900">—</span>
+              </div>
+              <div class="flex justify-between text-sm">
+                <span class="text-slate-500">15-Min Time Window</span>
+                <span id="receiptTimeSlot" class="font-bold text-teal-700">—</span>
+              </div>
+              <div class="flex justify-between text-sm">
+                <span class="text-slate-500">Phone Number</span>
+                <span id="receiptPhone" class="font-medium text-slate-800">—</span>
+              </div>
+              <div class="pt-2.5 border-t border-slate-200/80">
+                <span class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">Reported Medical Problem</span>
+                <p id="receiptProblem" class="text-sm font-medium text-slate-800 bg-white p-3 rounded-xl border border-slate-200/70">
+                  —
+                </p>
+              </div>
+            </div>
 
-              <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
-                <button onclick="resetAndBookAnother()" class="px-5 py-3 rounded-xl bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold transition">
-                  Book another appointment
-                </button>
-                <button onclick="switchMainView('provider')" class="px-5 py-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-800 text-sm font-semibold transition">
-                  View in Provider workspace
-                </button>
-              </div>
+            <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+              <button onclick="bookAnotherAppointment()" class="px-5 py-3 rounded-2xl bg-teal-600 hover:bg-teal-700 text-white text-sm font-semibold transition shadow-sm">
+                Book another appointment
+              </button>
+              <button onclick="switchMainView('admin')" class="px-5 py-3 rounded-2xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-800 text-sm font-semibold transition">
+                View in Doctor / Admin Panel
+              </button>
             </div>
           </div>
 
         </div>
 
-        <!-- RIGHT COLUMN: PERSISTENT BOOKING SUMMARY SIDEBAR (4 cols) -->
-        <aside id="bookingSummarySidebar" class="lg:col-span-4 lg:sticky lg:top-24">
+        <!-- RIGHT COLUMN: LIVE APPOINTMENT SUMMARY SIDEBAR (4 COLS) -->
+        <aside class="lg:col-span-4 lg:sticky lg:top-24 space-y-5">
           <div class="bg-white rounded-3xl border border-slate-200/90 shadow-soft p-6">
             <div class="flex items-center justify-between pb-4 border-b border-slate-100">
-              <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Your Appointment</span>
-              <span class="w-2 h-2 rounded-full bg-brand-600"></span>
+              <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Booking Summary</span>
+              <span class="px-2 py-0.5 rounded-md bg-teal-50 text-teal-700 text-[11px] font-bold">15 Mins</span>
             </div>
 
-            <h3 class="text-lg font-bold text-slate-900 mt-4">Your booking at a glance</h3>
-            <p class="text-xs text-slate-500 mt-0.5 mb-5">Updates live as you select your options.</p>
+            <h3 class="text-lg font-bold text-slate-900 mt-4">Your Consultation</h3>
+            <p class="text-xs text-slate-500 mt-0.5 mb-5">Live summary of your selected slot.</p>
 
-            <!-- Summary Details Box -->
-            <div id="summaryContentBox" class="space-y-4">
-              <!-- Service Row -->
-              <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/60">
-                <div class="text-[11px] font-semibold uppercase tracking-wider text-slate-400">Service</div>
-                <div id="sumServiceTitle" class="text-sm font-bold text-slate-900 mt-0.5">No service selected yet</div>
-                <div id="sumServiceMeta" class="text-xs text-slate-500 mt-0.5">Choose a service on the left to begin</div>
+            <div class="space-y-3.5 text-sm">
+              <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/70">
+                <div class="text-[11px] font-semibold uppercase tracking-wider text-slate-400">Selected Date</div>
+                <div id="summaryDateText" class="text-sm font-bold text-slate-900 mt-0.5">—</div>
               </div>
 
-              <!-- Date & Time Rows -->
-              <div class="space-y-2.5 text-sm">
-                <div class="flex items-center justify-between py-1.5 border-b border-slate-100">
-                  <span class="text-slate-500">Date</span>
-                  <span id="sumDate" class="font-semibold text-slate-800">Not selected</span>
-                </div>
-                <div class="flex items-center justify-between py-1.5 border-b border-slate-100">
-                  <span class="text-slate-500">Time</span>
-                  <span id="sumTime" class="font-semibold text-slate-800">Not selected</span>
-                </div>
-                <div class="flex items-center justify-between py-1.5 border-b border-slate-100">
-                  <span class="text-slate-500">Duration</span>
-                  <span id="sumDuration" class="font-medium text-slate-700">—</span>
-                </div>
-                <div class="flex items-center justify-between pt-2">
-                  <span class="font-semibold text-slate-700">Total</span>
-                  <span id="sumPrice" class="text-xl font-extrabold text-brand-700">₹0</span>
-                </div>
+              <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/70">
+                <div class="text-[11px] font-semibold uppercase tracking-wider text-slate-400">15-Minute Slot</div>
+                <div id="summarySlotText" class="text-sm font-bold text-teal-700 mt-0.5">No slot selected yet</div>
+              </div>
+
+              <div class="flex items-center justify-between py-2 border-b border-slate-100">
+                <span class="text-slate-500">Slot Duration</span>
+                <span class="font-semibold text-slate-800">15 minutes</span>
+              </div>
+
+              <div class="flex items-center justify-between py-2 border-b border-slate-100">
+                <span class="text-slate-500">Booking Window</span>
+                <span class="font-semibold text-slate-800">Within 7 days</span>
+              </div>
+
+              <div class="flex items-center justify-between pt-1">
+                <span class="font-semibold text-slate-700">Consultation Fee</span>
+                <span class="text-lg font-extrabold text-slate-900">₹500</span>
               </div>
             </div>
 
             <div class="mt-6 pt-4 border-t border-slate-100 flex items-start gap-2.5 text-xs text-slate-500">
-              <svg class="w-4 h-4 text-brand-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round" />
+              <svg class="w-4 h-4 text-teal-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" stroke-linecap="round" stroke-linejoin="round" />
               </svg>
-              <span>Free rescheduling or cancellation up to 12 hours before your session.</span>
+              <span>Slots update in real time based on the doctor's daily availability.</span>
             </div>
           </div>
         </aside>
@@ -492,93 +419,102 @@
       </div>
     </section>
 
-    <!-- ========================================================= -->
-    <!-- 3. PROVIDER WORKSPACE VIEW                                -->
-    <!-- ========================================================= -->
-    <section id="view-provider" class="hidden fade-in max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
-      
-      <!-- Workspace Header -->
-      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 pb-6 border-b border-slate-200/80 mb-8">
+    <!-- =================================================================== -->
+    <!-- 2. DOCTOR / ADMIN PANEL (DAILY SCHEDULE CONTROL & PATIENT QUEUE)    -->
+    <!-- =================================================================== -->
+    <section id="view-admin" class="hidden fade-in max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-7 sm:py-10">
+
+      <!-- Admin Header -->
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-slate-200/80 mb-7">
         <div>
-          <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 text-xs font-semibold mb-2">
-            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-            Provider Dashboard
+          <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-teal-50 text-teal-700 border border-teal-200 text-xs font-semibold mb-2">
+            <span class="w-2 h-2 rounded-full bg-teal-600"></span>
+            Doctor &amp; Reception Admin Control
           </div>
-          <h1 class="text-3xl font-extrabold tracking-tight text-slate-900">Provider workspace</h1>
-          <p class="text-sm text-slate-500 mt-1">Manage incoming bookings, update appointment statuses, and customize your service menu.</p>
+          <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900">Daily Availability &amp; Patient Queue</h1>
+          <p class="text-xs sm:text-sm text-slate-500 mt-1">
+            Configure daily consultation hours for the upcoming 7 days (automatically sliced into 15-min slots) and manage patient visits.
+          </p>
         </div>
 
-        <div class="flex flex-wrap items-center gap-3">
-          <button onclick="openServiceModal()" class="px-4 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold shadow-sm transition flex items-center gap-2">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
-              <path d="M12 5v14M5 12h14" stroke-linecap="round" />
-            </svg>
-            <span>Add custom service</span>
+        <div class="flex flex-wrap items-center gap-2.5">
+          <button onclick="resetClinicDemoData()" class="px-4 py-2.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 text-xs font-semibold transition">
+            Reset Demo Data
           </button>
-          <button onclick="startBookingFlow()" class="px-4 py-2.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-sm font-semibold transition">
-            Open customer booking view
+          <button onclick="switchMainView('patient')" class="px-4 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-xs font-semibold shadow-sm transition">
+            Preview Patient Booking →
           </button>
         </div>
       </div>
 
-      <!-- KPI Metrics Strip -->
+      <!-- Live KPI Cards -->
       <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-2xs">
-          <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Total Bookings</span>
-          <div id="kpiTotalBookings" class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">0</div>
+          <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Today's Patients</span>
+          <div id="kpiTodayCount" class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">0</div>
         </div>
         <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-2xs">
-          <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Upcoming</span>
-          <div id="kpiUpcomingBookings" class="text-2xl sm:text-3xl font-extrabold text-brand-600 mt-1">0</div>
+          <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Upcoming (Next 7 Days)</span>
+          <div id="kpiUpcoming7Days" class="text-2xl sm:text-3xl font-extrabold text-teal-600 mt-1">0</div>
         </div>
         <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-2xs">
-          <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Completed</span>
-          <div id="kpiCompletedBookings" class="text-2xl sm:text-3xl font-extrabold text-emerald-600 mt-1">0</div>
+          <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Open 15m Slots Today</span>
+          <div id="kpiOpenSlotsToday" class="text-2xl sm:text-3xl font-extrabold text-indigo-600 mt-1">0</div>
         </div>
         <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-2xs">
-          <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Projected Revenue</span>
-          <div id="kpiProjectedRevenue" class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">₹0</div>
+          <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Completed Visits</span>
+          <div id="kpiCompletedVisits" class="text-2xl sm:text-3xl font-extrabold text-emerald-600 mt-1">0</div>
         </div>
       </div>
 
-      <!-- Workspace Content Grid: Appointments (7 cols) + Service Catalog Manager (5 cols) -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        
-        <!-- LEFT: BOOKED APPOINTMENTS MANAGER (7 cols) -->
-        <div class="lg:col-span-7 bg-white rounded-3xl border border-slate-200/90 shadow-soft p-5 sm:p-6">
-          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-4 border-b border-slate-100 mb-5">
-            <div>
-              <h2 class="text-lg font-bold text-slate-900">Appointments</h2>
-              <p class="text-xs text-slate-500">Filter by status and mark sessions as completed or cancelled.</p>
-            </div>
+      <!-- Main Admin Split Layout: Left = 7-Day Availability Editor (5 cols), Right = Patient Queue (7 cols) -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-7 items-start">
 
-            <!-- Status Filter Tabs -->
-            <div class="flex items-center gap-1.5 bg-slate-100 p-1 rounded-xl self-start">
-              <button onclick="setProviderStatusFilter('All')" id="filterTab-All" class="px-3 py-1.5 rounded-lg text-xs font-semibold transition">All</button>
-              <button onclick="setProviderStatusFilter('Upcoming')" id="filterTab-Upcoming" class="px-3 py-1.5 rounded-lg text-xs font-semibold transition">Upcoming</button>
-              <button onclick="setProviderStatusFilter('Completed')" id="filterTab-Completed" class="px-3 py-1.5 rounded-lg text-xs font-semibold transition">Completed</button>
-              <button onclick="setProviderStatusFilter('Cancelled')" id="filterTab-Cancelled" class="px-3 py-1.5 rounded-lg text-xs font-semibold transition">Cancelled</button>
-            </div>
+        <!-- LEFT: 7-DAY DAILY AVAILABILITY CONFIGURATOR (5 COLS) -->
+        <div class="lg:col-span-5 bg-white rounded-3xl border border-slate-200/90 shadow-soft p-5 sm:p-6">
+          <div class="pb-4 border-b border-slate-100 mb-4">
+            <h2 class="text-lg font-bold text-slate-900">Doctor Availability (Next 7 Days)</h2>
+            <p class="text-xs text-slate-500 mt-0.5">
+              Every day's hours can differ. Edit morning/evening shifts below — 15-minute slots update automatically.
+            </p>
           </div>
 
-          <div id="providerAppointmentsList" class="space-y-3.5">
+          <!-- Day Selector Pills for Admin Editing -->
+          <div id="adminDaySelectorGrid" class="grid grid-cols-4 sm:grid-cols-7 lg:grid-cols-4 gap-2 mb-5">
+            <!-- Populated dynamically -->
+          </div>
+
+          <!-- Selected Day Schedule Editor Card -->
+          <div id="adminDayEditorBox" class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-4">
             <!-- Populated dynamically -->
           </div>
         </div>
 
-        <!-- RIGHT: CUSTOM SERVICES CATALOG (5 cols) -->
-        <div class="lg:col-span-5 bg-white rounded-3xl border border-slate-200/90 shadow-soft p-5 sm:p-6">
-          <div class="flex items-center justify-between pb-4 border-b border-slate-100 mb-5">
+        <!-- RIGHT: PATIENT APPOINTMENTS & MEDICAL PROBLEM QUEUE (7 COLS) -->
+        <div class="lg:col-span-7 bg-white rounded-3xl border border-slate-200/90 shadow-soft p-5 sm:p-6">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-100 mb-5">
             <div>
-              <h2 class="text-lg font-bold text-slate-900">Your Services</h2>
-              <p class="text-xs text-slate-500">Customize offerings shown in the booking flow.</p>
+              <h2 class="text-lg font-bold text-slate-900">Booked Patient Queue</h2>
+              <p class="text-xs text-slate-500">Review patient symptoms and manage 15-min consultation statuses.</p>
             </div>
-            <button onclick="openServiceModal()" class="text-xs font-semibold text-brand-600 hover:text-brand-700 bg-brand-50 px-3 py-1.5 rounded-xl transition">
-              + New Service
-            </button>
+
+            <!-- Filter Controls -->
+            <div class="flex flex-wrap items-center gap-2">
+              <select id="adminDateFilterSelect" onchange="setAdminDateFilter(this.value)" class="px-3 py-1.5 rounded-xl border border-slate-200 bg-white text-xs font-semibold text-slate-700 outline-none focus:border-teal-600">
+                <!-- Populated dynamically -->
+              </select>
+
+              <div class="flex items-center bg-slate-100 p-1 rounded-xl">
+                <button onclick="setAdminStatusFilter('All')" id="adminTab-All" class="px-2.5 py-1 rounded-lg text-xs font-semibold transition">All</button>
+                <button onclick="setAdminStatusFilter('Booked')" id="adminTab-Booked" class="px-2.5 py-1 rounded-lg text-xs font-semibold transition">Booked</button>
+                <button onclick="setAdminStatusFilter('Completed')" id="adminTab-Completed" class="px-2.5 py-1 rounded-lg text-xs font-semibold transition">Completed</button>
+                <button onclick="setAdminStatusFilter('Cancelled')" id="adminTab-Cancelled" class="px-2.5 py-1 rounded-lg text-xs font-semibold transition">Cancelled</button>
+              </div>
+            </div>
           </div>
 
-          <div id="providerServicesList" class="space-y-3">
+          <!-- Queue List -->
+          <div id="adminAppointmentsList" class="space-y-3.5">
             <!-- Populated dynamically -->
           </div>
         </div>
@@ -588,98 +524,36 @@
 
   </main>
 
-  <!-- ADD / EDIT SERVICE MODAL -->
-  <div id="serviceModal" class="fixed inset-0 z-50 hidden bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-4">
-    <div class="bg-white rounded-3xl border border-slate-200 shadow-2xl max-w-md w-full p-6 sm:p-7 fade-in">
-      <div class="flex items-center justify-between pb-4 border-b border-slate-100 mb-5">
-        <h3 id="serviceModalTitle" class="text-lg font-bold text-slate-900">Add Custom Service</h3>
-        <button onclick="closeServiceModal()" class="p-1.5 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12" stroke-linecap="round"/></svg>
-        </button>
-      </div>
-
-      <form id="serviceForm" onsubmit="handleSaveService(event)" class="space-y-4">
-        <input type="hidden" id="editServiceId" />
-
-        <div>
-          <label class="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1">Service Name *</label>
-          <input type="text" id="srvName" required placeholder="e.g., Signature Haircut & Style" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 focus:border-brand-600 outline-none text-sm" />
-        </div>
-
-        <div class="grid grid-cols-2 gap-3">
-          <div>
-            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1">Duration (mins) *</label>
-            <input type="number" id="srvDuration" required min="10" max="480" step="5" placeholder="45" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 focus:border-brand-600 outline-none text-sm" />
-          </div>
-          <div>
-            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1">Price (₹) *</label>
-            <input type="number" id="srvPrice" required min="0" step="50" placeholder="850" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 focus:border-brand-600 outline-none text-sm" />
-          </div>
-        </div>
-
-        <div>
-          <label class="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1">Category *</label>
-          <input type="text" id="srvCategory" required placeholder="e.g., Salon, Tutoring, Coaching" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 focus:border-brand-600 outline-none text-sm" />
-        </div>
-
-        <div>
-          <label class="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1">Short Description *</label>
-          <textarea id="srvDescription" required rows="2" placeholder="Brief summary of what is included in this session..." class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 focus:border-brand-600 outline-none text-sm resize-none"></textarea>
-        </div>
-
-        <div class="pt-3 flex items-center justify-end gap-2.5">
-          <button type="button" onclick="closeServiceModal()" class="px-4 py-2.5 rounded-xl border border-slate-200 text-slate-700 hover:bg-slate-50 text-sm font-semibold">
-            Cancel
-          </button>
-          <button type="submit" class="px-5 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold shadow-sm">
-            Save Service
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
-
   <!-- FOOTER -->
-  <footer class="border-t border-slate-200/70 bg-white mt-16">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+  <footer class="border-t border-slate-200/80 bg-white mt-14">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500">
       <div class="flex items-center gap-2">
-        <span class="font-bold text-slate-800">SlotBook AI</span>
+        <span class="font-bold text-slate-800">CareSlot Clinic</span>
         <span>•</span>
-        <span>Calmer scheduling for salons, tutors, and coaches.</span>
+        <span>15-Minute Doctor Slot Scheduling • 7-Day Rolling Window</span>
       </div>
       <div>
-        <button onclick="resetDemoData()" class="text-slate-400 hover:text-slate-700 underline transition">
-          Reset demo data
-        </button>
+        <span>All bookings &amp; schedule changes persist locally in your browser.</span>
       </div>
     </div>
   </footer>
 
-  <!-- APPLICATION LOGIC -->
+  <!-- ===================================================================== -->
+  <!-- JAVASCRIPT: 15-MIN SLOT ENGINE, 7-DAY SCHEDULE & BOOKING LOGIC        -->
+  <!-- ===================================================================== -->
   <script>
-    // =========================================================================
-    // 1. STORAGE KEYS & SEED DATA
-    // =========================================================================
     const STORAGE_KEYS = {
-      SERVICES: 'slotbook_ai_services_v1',
-      APPOINTMENTS: 'slotbook_ai_appointments_v1'
+      SCHEDULES: 'careslot_doctor_schedules_v1',
+      APPOINTMENTS: 'careslot_doctor_appointments_v1'
     };
 
-    const TIME_SLOTS = [
-      '9:00 AM',
-      '10:30 AM',
-      '12:00 PM',
-      '2:00 PM',
-      '3:30 PM',
-      '5:00 PM'
-    ];
-
-    // Helper to get YYYY-MM-DD relative to today
-    function getRelativeDateStr(offsetDays) {
+    // =========================================================================
+    // 1. DATE & 15-MINUTE TIME SLOT ENGINE UTILITIES
+    // =========================================================================
+    function getTodayMidnight() {
       const d = new Date();
       d.setHours(0, 0, 0, 0);
-      d.setDate(d.getDate() + offsetDays);
-      return formatDateISO(d);
+      return d;
     }
 
     function formatDateISO(dateObj) {
@@ -689,170 +563,304 @@
       return `${y}-${m}-${d}`;
     }
 
-    function formatReadableDate(isoStr) {
-      if (!isoStr) return 'Not selected';
+    function getRolling7Days() {
+      const days = [];
+      const base = getTodayMidnight();
+      for (let i = 0; i < 7; i++) {
+        const d = new Date(base);
+        d.setDate(base.getDate() + i);
+        days.push({
+          offset: i,
+          iso: formatDateISO(d),
+          dayShort: i === 0 ? 'Today' : i === 1 ? 'Tomorrow' : d.toLocaleDateString('en-IN', { weekday: 'short' }),
+          dayFull: d.toLocaleDateString('en-IN', { weekday: 'long' }),
+          dateNum: d.getDate(),
+          monthShort: d.toLocaleDateString('en-IN', { month: 'short' }),
+          readable: d.toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' })
+        });
+      }
+      return days;
+    }
+
+    function getReadableDateByISO(isoStr) {
       const [y, m, d] = isoStr.split('-').map(Number);
       const dt = new Date(y, m - 1, d);
-      return dt.toLocaleDateString('en-IN', {
-        weekday: 'short',
-        day: 'numeric',
-        month: 'short',
-        year: 'numeric'
-      });
+      return dt.toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' });
     }
 
-    const DEFAULT_SERVICES = [
-      {
-        id: 'srv-1',
-        name: 'Signature Haircut',
-        description: 'Tailored consultation, precision cut, relaxing wash, and blow-dry finish.',
-        duration: 45,
-        price: 850,
-        category: 'Salon'
-      },
-      {
-        id: 'srv-2',
-        name: 'Style & Blow Dry',
-        description: 'Nourishing hair spa wash followed by voluminous salon styling.',
-        duration: 40,
-        price: 700,
-        category: 'Salon'
-      },
-      {
-        id: 'srv-3',
-        name: 'Personal Coaching',
-        description: '1-on-1 clarity session focused on career growth, habits, and accountability.',
-        duration: 60,
-        price: 1800,
-        category: 'Coaching'
-      },
-      {
-        id: 'srv-4',
-        name: 'Maths Tutoring',
-        description: 'Focused 1-on-1 problem solving, concept mastery, and exam prep.',
-        duration: 60,
-        price: 1200,
-        category: 'Tutoring'
-      },
-      {
-        id: 'srv-5',
-        name: 'Strategy Consultation',
-        description: 'Deep-dive audit and actionable roadmap for founders and creators.',
-        duration: 50,
-        price: 2500,
-        category: 'Coaching'
-      }
-    ];
+    // Convert "HH:MM" (24h) to total minutes since midnight
+    function timeToMinutes(hhmm) {
+      if (!hhmm || !hhmm.includes(':')) return 0;
+      const [h, m] = hhmm.split(':').map(Number);
+      return h * 60 + m;
+    }
 
-    const DEFAULT_APPOINTMENTS = [
-      {
-        id: 'SB-4821',
-        serviceId: 'srv-1',
-        serviceName: 'Signature Haircut',
-        category: 'Salon',
-        duration: 45,
-        price: 850,
-        date: getRelativeDateStr(0),
-        time: '10:30 AM',
-        customerName: 'Riya Menon',
-        customerEmail: 'riya.menon@example.com',
-        customerPhone: '+91 98401 22310',
-        notes: 'Prefer soft layers around the face.',
-        status: 'Upcoming'
-      },
-      {
-        id: 'SB-4822',
-        serviceId: 'srv-3',
-        serviceName: 'Personal Coaching',
-        category: 'Coaching',
-        duration: 60,
-        price: 1800,
-        date: getRelativeDateStr(0),
-        time: '3:30 PM',
-        customerName: 'Vikramaditya Nair',
-        customerEmail: 'vikram.nair@example.com',
-        customerPhone: '+91 99002 54119',
-        notes: 'Preparing for Q4 product leadership transition.',
-        status: 'Upcoming'
-      },
-      {
-        id: 'SB-4823',
-        serviceId: 'srv-4',
-        serviceName: 'Maths Tutoring',
-        category: 'Tutoring',
-        duration: 60,
-        price: 1200,
-        date: getRelativeDateStr(1),
-        time: '5:00 PM',
-        customerName: 'Aarav Kulkarni',
-        customerEmail: 'aarav.k@example.com',
-        customerPhone: '+91 98211 77643',
-        notes: 'Calculus & differential equations practice.',
-        status: 'Upcoming'
-      },
-      {
-        id: 'SB-4819',
-        serviceId: 'srv-5',
-        serviceName: 'Strategy Consultation',
-        category: 'Coaching',
-        duration: 50,
-        price: 2500,
-        date: getRelativeDateStr(-1),
-        time: '12:00 PM',
-        customerName: 'Meera Krishnan',
-        customerEmail: 'meera@studioflow.in',
-        customerPhone: '+91 97412 88901',
-        notes: 'Completed pricing & positioning review.',
-        status: 'Completed'
+    // Convert total minutes since midnight to "09:15 AM"
+    function minutesTo12Hour(totalMins) {
+      let h = Math.floor(totalMins / 60);
+      const m = totalMins % 60;
+      const ampm = h >= 12 ? 'PM' : 'AM';
+      h = h % 12;
+      if (h === 0) h = 12;
+      return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')} ${ampm}`;
+    }
+
+    // Generate 15-minute increment <option> tags for Admin time dropdowns (07:00 to 22:00)
+    function build15MinTimeOptions(selectedHHMM) {
+      let html = '';
+      for (let mins = 7 * 60; mins <= 22 * 60; mins += 15) {
+        const h = String(Math.floor(mins / 60)).padStart(2, '0');
+        const m = String(mins % 60).padStart(2, '0');
+        const val = `${h}:${m}`;
+        const label = minutesTo12Hour(mins);
+        html += `<option value="${val}" ${val === selectedHHMM ? 'selected' : ''}>${label}</option>`;
       }
-    ];
+      return html;
+    }
+
+    /**
+     * Slice a day's doctor schedule into exact 15-minute slots.
+     * Each slot object:
+     * {
+     *   startMins: 570,
+     *   start24: "09:30",
+     *   label: "09:30 AM - 09:45 AM",
+     *   shortLabel: "09:30 AM",
+     *   period: "Morning" | "Afternoon" | "Evening"
+     * }
+     */
+    function generate15MinSlotsForSchedule(daySchedule) {
+      if (!daySchedule || !daySchedule.isAvailable) return [];
+
+      const sessions = [];
+      if (daySchedule.morningEnabled && daySchedule.morningStart && daySchedule.morningEnd) {
+        sessions.push({
+          start: timeToMinutes(daySchedule.morningStart),
+          end: timeToMinutes(daySchedule.morningEnd)
+        });
+      }
+      if (daySchedule.eveningEnabled && daySchedule.eveningStart && daySchedule.eveningEnd) {
+        sessions.push({
+          start: timeToMinutes(daySchedule.eveningStart),
+          end: timeToMinutes(daySchedule.eveningEnd)
+        });
+      }
+
+      const slots = [];
+      const seenStarts = new Set();
+
+      sessions.forEach(sess => {
+        for (let t = sess.start; t + 15 <= sess.end; t += 15) {
+          if (seenStarts.has(t)) continue;
+          seenStarts.add(t);
+
+          const h = String(Math.floor(t / 60)).padStart(2, '0');
+          const m = String(t % 60).padStart(2, '0');
+          const period = t < 12 * 60 ? 'Morning' : t < 17 * 60 ? 'Afternoon' : 'Evening';
+
+          slots.push({
+            startMins: t,
+            start24: `${h}:${m}`,
+            shortLabel: minutesTo12Hour(t),
+            label: `${minutesTo12Hour(t)} - ${minutesTo12Hour(t + 15)}`,
+            period
+          });
+        }
+      });
+
+      return slots.sort((a, b) => a.startMins - b.startMins);
+    }
+
+    // Check if a slot on `isoDate` is already booked or has already passed today
+    function getSlotAvailabilityStatus(isoDate, slotObj) {
+      const isBooked = state.appointments.some(
+        app => app.date === isoDate && app.start24 === slotObj.start24 && app.status !== 'Cancelled'
+      );
+      if (isBooked) return 'booked';
+
+      const todayISO = formatDateISO(getTodayMidnight());
+      if (isoDate === todayISO) {
+        const now = new Date();
+        const currentMins = now.getHours() * 60 + now.getMinutes();
+        if (slotObj.startMins <= currentMins) {
+          return 'passed';
+        }
+      }
+
+      return 'available';
+    }
+
+    function countAvailableSlotsForDate(isoDate) {
+      const sched = state.schedules[isoDate];
+      if (!sched || !sched.isAvailable) return 0;
+      const allSlots = generate15MinSlotsForSchedule(sched);
+      return allSlots.filter(s => getSlotAvailabilityStatus(isoDate, s) === 'available').length;
+    }
 
     // =========================================================================
-    // 2. APPLICATION STATE
+    // 2. SEED DATA (VARYING DAILY SCHEDULES & SAMPLE MEDICAL BOOKINGS)
+    // =========================================================================
+    function createDefaultSchedules() {
+      const days = getRolling7Days();
+      const map = {};
+
+      days.forEach((d, idx) => {
+        if (idx === 0) {
+          // Today: Morning + Evening
+          map[d.iso] = {
+            isAvailable: true,
+            morningEnabled: true,
+            morningStart: '09:30',
+            morningEnd: '12:30',
+            eveningEnabled: true,
+            eveningStart: '17:30',
+            eveningEnd: '20:00'
+          };
+        } else if (idx === 1) {
+          // Tomorrow: Morning extended shift only
+          map[d.iso] = {
+            isAvailable: true,
+            morningEnabled: true,
+            morningStart: '09:00',
+            morningEnd: '13:30',
+            eveningEnabled: false,
+            eveningStart: '17:00',
+            eveningEnd: '19:30'
+          };
+        } else if (idx === 2) {
+          // Day 3: Afternoon & Evening clinic
+          map[d.iso] = {
+            isAvailable: true,
+            morningEnabled: false,
+            morningStart: '10:00',
+            morningEnd: '12:00',
+            eveningEnabled: true,
+            eveningStart: '15:00',
+            eveningEnd: '19:30'
+          };
+        } else if (idx === 4) {
+          // Day 5: Doctor on hospital rounds / Day Off
+          map[d.iso] = {
+            isAvailable: false,
+            morningEnabled: true,
+            morningStart: '10:00',
+            morningEnd: '13:00',
+            eveningEnabled: false,
+            eveningStart: '17:00',
+            eveningEnd: '19:00'
+          };
+        } else {
+          // Other days in 1-week window: Standard split clinic
+          map[d.iso] = {
+            isAvailable: true,
+            morningEnabled: true,
+            morningStart: '10:00',
+            morningEnd: '12:30',
+            eveningEnabled: true,
+            eveningStart: '17:00',
+            eveningEnd: '19:30'
+          };
+        }
+      });
+
+      return map;
+    }
+
+    function createDefaultAppointments() {
+      const days = getRolling7Days();
+      const todayISO = days[0].iso;
+      const tomorrowISO = days[1].iso;
+
+      return [
+        {
+          id: 'DR-2041',
+          date: todayISO,
+          start24: '18:00',
+          slotLabel: '06:00 PM - 06:15 PM',
+          patientName: 'Suresh Narayanan',
+          patientPhone: '+91 98421 67120',
+          problem: 'Lower back pain radiating to right hip for 4 days after lifting.',
+          status: 'Booked'
+        },
+        {
+          id: 'DR-2042',
+          date: todayISO,
+          start24: '18:30',
+          slotLabel: '06:30 PM - 06:45 PM',
+          patientName: 'Priya Dharshini',
+          patientPhone: '+91 97890 33419',
+          problem: 'Sharp left leg pain and calf tightness while walking upstairs.',
+          status: 'Booked'
+        },
+        {
+          id: 'DR-2043',
+          date: tomorrowISO,
+          start24: '10:15',
+          slotLabel: '10:15 AM - 10:30 AM',
+          patientName: 'Mohammed Farooq',
+          patientPhone: '+91 99441 88210',
+          problem: 'Mild fever, throat irritation, and body ache since yesterday.',
+          status: 'Booked'
+        },
+        {
+          id: 'DR-2039',
+          date: todayISO,
+          start24: '10:00',
+          slotLabel: '10:00 AM - 10:15 AM',
+          patientName: 'Lakshmi Venkat',
+          patientPhone: '+91 98405 11902',
+          problem: 'Routine blood pressure & knee pain follow-up review.',
+          status: 'Completed'
+        }
+      ];
+    }
+
+    // =========================================================================
+    // 3. APPLICATION STATE & STORAGE PERSISTENCE
     // =========================================================================
     let state = {
-      activeView: 'hero', // 'hero' | 'booking' | 'provider'
-      services: [],
+      activeView: 'patient', // 'patient' | 'admin'
+      schedules: {},
       appointments: [],
-      // Hero preview calendar state
-      heroPreviewDate: getRelativeDateStr(0),
-      // Customer booking flow state
-      bookingStep: 1, // 1 | 2 | 3 | 4 (confirmation)
-      selectedCategory: 'All',
-      selectedServiceId: null,
-      bookingCalendarYear: new Date().getFullYear(),
-      bookingCalendarMonth: new Date().getMonth(),
-      selectedDate: getRelativeDateStr(0),
-      selectedTime: null,
-      // Provider workspace state
-      providerStatusFilter: 'All'
+      // Patient Portal state
+      selectedPatientDate: getRolling7Days()[0].iso,
+      selectedSlotObj: null, // { start24, label, shortLabel }
+      // Admin Panel state
+      adminEditingDate: getRolling7Days()[0].iso,
+      adminDateFilter: 'ALL_7',
+      adminStatusFilter: 'All'
     };
 
-    // =========================================================================
-    // 3. INITIALIZATION & STORAGE HELPERS
-    // =========================================================================
-    function loadFromStorage() {
+    function loadAppState() {
+      const days = getRolling7Days();
+      const defaultScheds = createDefaultSchedules();
+
       try {
-        const storedServices = localStorage.getItem(STORAGE_KEYS.SERVICES);
-        const storedAppointments = localStorage.getItem(STORAGE_KEYS.APPOINTMENTS);
+        const rawSched = localStorage.getItem(STORAGE_KEYS.SCHEDULES);
+        const parsedSched = rawSched ? JSON.parse(rawSched) : {};
+        // Ensure every day in the current rolling 7-day window has a valid schedule object
+        const mergedSched = {};
+        days.forEach(d => {
+          mergedSched[d.iso] = parsedSched[d.iso] ? parsedSched[d.iso] : defaultScheds[d.iso];
+        });
+        state.schedules = mergedSched;
+        saveSchedules();
 
-        state.services = storedServices ? JSON.parse(storedServices) : [...DEFAULT_SERVICES];
-        state.appointments = storedAppointments ? JSON.parse(storedAppointments) : [...DEFAULT_APPOINTMENTS];
-
-        if (!storedServices) saveServices();
-        if (!storedAppointments) saveAppointments();
-      } catch (err) {
-        console.error('Storage read fallback:', err);
-        state.services = [...DEFAULT_SERVICES];
-        state.appointments = [...DEFAULT_APPOINTMENTS];
+        const rawApps = localStorage.getItem(STORAGE_KEYS.APPOINTMENTS);
+        state.appointments = rawApps ? JSON.parse(rawApps) : createDefaultAppointments();
+        if (!rawApps) saveAppointments();
+      } catch (e) {
+        console.error('LocalStorage load fallback:', e);
+        state.schedules = defaultScheds;
+        state.appointments = createDefaultAppointments();
       }
     }
 
-    function saveServices() {
+    function saveSchedules() {
       try {
-        localStorage.setItem(STORAGE_KEYS.SERVICES, JSON.stringify(state.services));
+        localStorage.setItem(STORAGE_KEYS.SCHEDULES, JSON.stringify(state.schedules));
       } catch (e) {
-        console.error('Failed to save services:', e);
+        console.error('Failed saving schedules:', e);
       }
     }
 
@@ -860,23 +868,23 @@
       try {
         localStorage.setItem(STORAGE_KEYS.APPOINTMENTS, JSON.stringify(state.appointments));
       } catch (e) {
-        console.error('Failed to save appointments:', e);
+        console.error('Failed saving appointments:', e);
       }
     }
 
-    function resetDemoData() {
-      state.services = [...DEFAULT_SERVICES];
-      state.appointments = [...DEFAULT_APPOINTMENTS];
-      saveServices();
+    function resetClinicDemoData() {
+      state.schedules = createDefaultSchedules();
+      state.appointments = createDefaultAppointments();
+      state.selectedSlotObj = null;
+      saveSchedules();
       saveAppointments();
       renderAll();
-      showToast('Demo data restored to defaults.');
+      showToast('Demo clinic schedules & bookings restored.');
     }
 
-    function showToast(message) {
+    function showToast(msg) {
       const banner = document.getElementById('toastBanner');
-      const msgEl = document.getElementById('toastMessage');
-      msgEl.textContent = message;
+      document.getElementById('toastMessage').textContent = msg;
       banner.classList.remove('hidden');
       clearTimeout(window._toastTimer);
       window._toastTimer = setTimeout(() => {
@@ -885,680 +893,682 @@
     }
 
     // =========================================================================
-    // 4. VIEW SWITCHING & NAVIGATION
+    // 4. VIEW SWITCHING
     // =========================================================================
-    function switchMainView(viewName) {
-      state.activeView = viewName;
+    function switchMainView(view) {
+      state.activeView = view;
 
-      document.getElementById('view-hero').classList.toggle('hidden', viewName !== 'hero');
-      document.getElementById('view-booking').classList.toggle('hidden', viewName !== 'booking');
-      document.getElementById('view-provider').classList.toggle('hidden', viewName !== 'provider');
+      const patientSec = document.getElementById('view-patient');
+      const adminSec = document.getElementById('view-admin');
+      const navPat = document.getElementById('navPatientBtn');
+      const navAdm = document.getElementById('navAdminBtn');
 
-      // Update header button highlights
-      const navCust = document.getElementById('navCustomerBtn');
-      const navProv = document.getElementById('navProviderBtn');
-
-      if (viewName === 'booking') {
-        navCust.classList.add('bg-brand-50', 'text-brand-700');
-        navProv.classList.remove('border-brand-600', 'bg-brand-50', 'text-brand-700');
-      } else if (viewName === 'provider') {
-        navProv.classList.add('border-brand-600', 'bg-brand-50', 'text-brand-700');
-        navCust.classList.remove('bg-brand-50', 'text-brand-700');
+      if (view === 'patient') {
+        patientSec.classList.remove('hidden');
+        adminSec.classList.add('hidden');
+        navPat.className = 'px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition flex items-center gap-2 bg-white text-teal-700 shadow-2xs';
+        navAdm.className = 'px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition flex items-center gap-2 text-slate-600 hover:text-slate-900';
       } else {
-        navCust.classList.remove('bg-brand-50', 'text-brand-700');
-        navProv.classList.remove('border-brand-600', 'bg-brand-50', 'text-brand-700');
+        patientSec.classList.add('hidden');
+        adminSec.classList.remove('hidden');
+        navAdm.className = 'px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition flex items-center gap-2 bg-white text-teal-700 shadow-2xs';
+        navPat.className = 'px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition flex items-center gap-2 text-slate-600 hover:text-slate-900';
       }
 
       renderAll();
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    function startBookingFlow() {
-      if (state.bookingStep === 4) {
-        resetAndBookAnother();
-      } else {
-        switchMainView('booking');
-      }
-    }
-
-    function resetAndBookAnother() {
-      state.bookingStep = 1;
-      state.selectedServiceId = null;
-      state.selectedTime = null;
-      state.selectedDate = getRelativeDateStr(0);
-      document.getElementById('customerDetailsForm').reset();
-      switchMainView('booking');
-    }
-
     // =========================================================================
-    // 5. HERO LIVE SCHEDULE WIDGET RENDERING
+    // 5. PATIENT BOOKING PORTAL RENDERING & ACTIONS
     // =========================================================================
-    function renderHeroPreviewWidget() {
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-      const year = today.getFullYear();
-      const month = today.getMonth();
-
-      const monthLabel = today.toLocaleDateString('en-IN', { month: 'long', year: 'numeric' });
-      document.getElementById('heroPreviewMonthLabel').textContent = monthLabel;
-
-      const firstDayOfWeek = new Date(year, month, 1).getDay();
-      const daysInMonth = new Date(year, month + 1, 0).getDate();
-
-      const gridEl = document.getElementById('heroMiniCalendarGrid');
-      gridEl.innerHTML = '';
-
-      // Leading empty blanks
-      for (let i = 0; i < firstDayOfWeek; i++) {
-        gridEl.innerHTML += `<div class="h-9"></div>`;
+    function renderPatientPortal() {
+      const days = getRolling7Days();
+      if (!days.some(d => d.iso === state.selectedPatientDate)) {
+        state.selectedPatientDate = days[0].iso;
       }
 
-      // Days of current month
-      for (let day = 1; day <= daysInMonth; day++) {
-        const dObj = new Date(year, month, day);
-        const iso = formatDateISO(dObj);
-        const isSelected = iso === state.heroPreviewDate;
-        const hasBookings = state.appointments.some(a => a.date === iso && a.status !== 'Cancelled');
+      // 1. Render 7-Day Rolling Date Strip
+      const stripEl = document.getElementById('sevenDayStrip');
+      stripEl.innerHTML = days.map(d => {
+        const isSelected = d.iso === state.selectedPatientDate;
+        const sched = state.schedules[d.iso];
+        const openCount = countAvailableSlotsForDate(d.iso);
+        const isDayOff = !sched || !sched.isAvailable;
 
-        const btnClass = isSelected
-          ? 'bg-brand-600 text-white font-bold shadow-sm'
-          : 'bg-white hover:bg-brand-50 text-slate-700 font-medium border border-slate-200/60';
+        let cardClasses = isSelected
+          ? 'border-teal-600 bg-teal-600 text-white shadow-md shadow-teal-600/20'
+          : isDayOff
+            ? 'border-slate-200/70 bg-slate-50/70 text-slate-400 hover:border-slate-300'
+            : 'border-slate-200 bg-white hover:border-teal-400 text-slate-800';
 
-        gridEl.innerHTML += `
-          <button onclick="selectHeroPreviewDate('${iso}')" class="h-9 rounded-xl text-xs flex flex-col items-center justify-center relative transition ${btnClass}">
-            <span>${day}</span>
-            ${hasBookings ? `<span class="w-1 h-1 rounded-full ${isSelected ? 'bg-white' : 'bg-brand-600'} mt-0.5"></span>` : ''}
-          </button>
-        `;
-      }
+        let badgeHtml = '';
+        if (isDayOff) {
+          badgeHtml = `<span class="mt-1.5 inline-block px-2 py-0.5 rounded-full text-[10px] font-semibold ${isSelected ? 'bg-teal-700 text-teal-100' : 'bg-rose-50 text-rose-600'}">Doctor Off</span>`;
+        } else if (openCount === 0) {
+          badgeHtml = `<span class="mt-1.5 inline-block px-2 py-0.5 rounded-full text-[10px] font-semibold ${isSelected ? 'bg-teal-700 text-teal-100' : 'bg-amber-50 text-amber-700'}">Full (0)</span>`;
+        } else {
+          badgeHtml = `<span class="mt-1.5 inline-block px-2 py-0.5 rounded-full text-[10px] font-semibold ${isSelected ? 'bg-white/20 text-white' : 'bg-teal-50 text-teal-700'}">${openCount} slots</span>`;
+        }
 
-      // Render appointments for selected hero preview date
-      document.getElementById('heroPreviewDateTitle').textContent = `Schedule • ${formatReadableDate(state.heroPreviewDate)}`;
-      const listEl = document.getElementById('heroScheduleList');
-      const dayAppointments = state.appointments
-        .filter(a => a.date === state.heroPreviewDate && a.status !== 'Cancelled')
-        .sort((a, b) => TIME_SLOTS.indexOf(a.time) - TIME_SLOTS.indexOf(b.time));
-
-      if (dayAppointments.length === 0) {
-        listEl.innerHTML = `
-          <div class="p-4 rounded-2xl border border-dashed border-slate-200 text-center text-xs text-slate-500">
-            No bookings on this date yet — wide open for clients!
-          </div>
-        `;
-      } else {
-        listEl.innerHTML = dayAppointments.map(app => `
-          <div class="flex items-center justify-between p-3 rounded-2xl bg-slate-50 border border-slate-200/70">
-            <div class="flex items-center gap-3">
-              <div class="px-2.5 py-1.5 rounded-xl bg-white border border-slate-200 text-xs font-bold text-slate-800">
-                ${app.time}
-              </div>
-              <div>
-                <div class="text-sm font-bold text-slate-900">${escapeHtml(app.serviceName)}</div>
-                <div class="text-xs text-slate-500">${escapeHtml(app.customerName)} • ${app.duration} mins</div>
-              </div>
-            </div>
-            <span class="text-[11px] font-semibold px-2.5 py-1 rounded-full ${app.status === 'Completed' ? 'bg-emerald-50 text-emerald-700' : 'bg-brand-50 text-brand-700'}">
-              ${app.status}
+        return `
+          <button
+            type="button"
+            onclick="selectPatientDate('${d.iso}')"
+            class="p-3 rounded-2xl border text-center transition flex flex-col items-center justify-center ${cardClasses}"
+          >
+            <span class="text-[11px] font-semibold uppercase tracking-wider ${isSelected ? 'text-teal-100' : 'text-slate-400'}">
+              ${d.dayShort}
             </span>
-          </div>
-        `).join('');
-      }
-    }
-
-    function selectHeroPreviewDate(isoStr) {
-      state.heroPreviewDate = isoStr;
-      renderHeroPreviewWidget();
-    }
-
-    // =========================================================================
-    // 6. CUSTOMER BOOKING FLOW (STEPS 1, 2, 3 & CONFIRMATION)
-    // =========================================================================
-    function goToBookingStep(stepNum) {
-      // Guard step transitions
-      if (stepNum === 2 && !state.selectedServiceId) {
-        showToast('Please select a service first.');
-        return;
-      }
-      if (stepNum === 3 && (!state.selectedServiceId || !state.selectedDate || !state.selectedTime)) {
-        showToast('Please select both a date and an available time slot.');
-        return;
-      }
-
-      state.bookingStep = stepNum;
-      renderBookingFlow();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    function renderBookingFlow() {
-      const step = state.bookingStep;
-
-      // Toggle step containers
-      document.getElementById('booking-step-1').classList.toggle('hidden', step !== 1);
-      document.getElementById('booking-step-2').classList.toggle('hidden', step !== 2);
-      document.getElementById('booking-step-3').classList.toggle('hidden', step !== 3);
-      document.getElementById('booking-confirmation').classList.toggle('hidden', step !== 4);
-
-      // Update Stepper Pills
-      [1, 2, 3].forEach(num => {
-        const pill = document.getElementById(`stepPill-${num}`);
-        const circle = pill.querySelector('span');
-        const isActive = step === num;
-        const isCompleted = step > num;
-
-        pill.className = `flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-semibold transition ${
-          isActive
-            ? 'bg-brand-600 text-white shadow-xs'
-            : isCompleted
-              ? 'bg-brand-50 text-brand-700'
-              : 'text-slate-500 hover:text-slate-800'
-        }`;
-
-        circle.className = `w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold ${
-          isActive
-            ? 'bg-white text-brand-600'
-            : isCompleted
-              ? 'bg-brand-600 text-white'
-              : 'bg-slate-200 text-slate-600'
-        }`;
-        circle.textContent = isCompleted ? '✓' : num;
-      });
-
-      if (step === 1) renderStep1Services();
-      if (step === 2) renderStep2CalendarAndTimes();
-      if (step === 3) renderStep3Form();
-
-      renderBookingSummarySidebar();
-    }
-
-    function renderStep1Services() {
-      // Categories
-      const categories = ['All', ...new Set(state.services.map(s => s.category))];
-      if (!categories.includes(state.selectedCategory)) {
-        state.selectedCategory = 'All';
-      }
-
-      const catContainer = document.getElementById('serviceCategoryFilters');
-      catContainer.innerHTML = categories.map(cat => {
-        const active = state.selectedCategory === cat;
-        return `
-          <button onclick="filterBookingCategory('${escapeHtml(cat)}')" class="px-3.5 py-1.5 rounded-xl text-xs font-semibold transition ${
-            active
-              ? 'bg-slate-900 text-white shadow-2xs'
-              : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'
-          }">
-            ${escapeHtml(cat)}
+            <span class="text-base sm:text-lg font-extrabold mt-0.5">
+              ${d.dateNum} ${d.monthShort}
+            </span>
+            ${badgeHtml}
           </button>
         `;
       }).join('');
 
-      const filtered = state.selectedCategory === 'All'
-        ? state.services
-        : state.services.filter(s => s.category === state.selectedCategory);
+      // 2. Render Selected Date's Doctor Availability Window Banner
+      const activeSched = state.schedules[state.selectedPatientDate];
+      const bannerEl = document.getElementById('dayHoursBanner');
 
-      document.getElementById('serviceCountLabel').textContent = `${filtered.length} service${filtered.length === 1 ? '' : 's'} available`;
-
-      const grid = document.getElementById('servicesGrid');
-      if (filtered.length === 0) {
-        grid.innerHTML = `<div class="bg-white rounded-3xl p-8 text-center border border-slate-200 text-slate-500 text-sm">No services in this category.</div>`;
-        return;
-      }
-
-      grid.innerHTML = filtered.map(srv => {
-        const isSelected = state.selectedServiceId === srv.id;
-        return `
-          <div onclick="selectBookingService('${srv.id}')" class="group cursor-pointer bg-white rounded-2xl p-5 sm:p-6 border transition-all ${
-            isSelected
-              ? 'border-brand-600 ring-4 ring-brand-500/10 shadow-soft'
-              : 'border-slate-200/90 hover:border-brand-300 hover:shadow-soft'
-          }">
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-              <div class="space-y-1.5">
-                <div class="flex flex-wrap items-center gap-2.5">
-                  <h3 class="text-base sm:text-lg font-bold text-slate-900 group-hover:text-brand-700 transition">
-                    ${escapeHtml(srv.name)}
-                  </h3>
-                  <span class="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-slate-100 text-slate-600">
-                    ${escapeHtml(srv.category)}
-                  </span>
-                </div>
-                <p class="text-sm text-slate-500 leading-relaxed max-w-xl">
-                  ${escapeHtml(srv.description)}
-                </p>
-                <div class="pt-1 flex items-center gap-4 text-xs font-medium text-slate-500">
-                  <span class="inline-flex items-center gap-1">
-                    <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2" stroke-linecap="round"/></svg>
-                    ${srv.duration} minutes
-                  </span>
-                </div>
-              </div>
-
-              <div class="flex sm:flex-col items-center sm:items-end justify-between gap-3 shrink-0 pt-3 sm:pt-0 border-t sm:border-t-0 border-slate-100">
-                <span class="text-lg sm:text-xl font-extrabold text-slate-900">₹${srv.price.toLocaleString('en-IN')}</span>
-                <span class="px-4 py-2 rounded-xl text-xs font-semibold transition ${
-                  isSelected
-                    ? 'bg-brand-600 text-white'
-                    : 'bg-brand-50 text-brand-700 group-hover:bg-brand-600 group-hover:text-white'
-                }">
-                  ${isSelected ? 'Selected ✓' : 'Select →'}
-                </span>
-              </div>
-            </div>
+      if (!activeSched || !activeSched.isAvailable) {
+        bannerEl.innerHTML = `
+          <div class="flex items-center gap-2 text-rose-700 font-semibold">
+            <span class="w-2 h-2 rounded-full bg-rose-500"></span>
+            <span>Doctor is unavailable / on leave on ${getReadableDateByISO(state.selectedPatientDate)}.</span>
           </div>
+          <span class="text-slate-500">Please pick another day within the 7-day window.</span>
         `;
-      }).join('');
-    }
-
-    function filterBookingCategory(cat) {
-      state.selectedCategory = cat;
-      renderStep1Services();
-    }
-
-    function selectBookingService(serviceId) {
-      state.selectedServiceId = serviceId;
-      renderBookingSummarySidebar();
-      // Smoothly advance to Date & Time step
-      goToBookingStep(2);
-    }
-
-    function changeBookingMonth(delta) {
-      let m = state.bookingCalendarMonth + delta;
-      let y = state.bookingCalendarYear;
-      if (m < 0) { m = 11; y--; }
-      if (m > 11) { m = 0; y++; }
-      state.bookingCalendarMonth = m;
-      state.bookingCalendarYear = y;
-      renderStep2CalendarAndTimes();
-    }
-
-    function renderStep2CalendarAndTimes() {
-      const year = state.bookingCalendarYear;
-      const month = state.bookingCalendarMonth;
-
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-
-      const monthDate = new Date(year, month, 1);
-      document.getElementById('bookingCalendarMonthLabel').textContent = monthDate.toLocaleDateString('en-IN', {
-        month: 'long',
-        year: 'numeric'
-      });
-
-      const firstDay = monthDate.getDay();
-      const daysInMonth = new Date(year, month + 1, 0).getDate();
-      const grid = document.getElementById('bookingCalendarGrid');
-      grid.innerHTML = '';
-
-      for (let i = 0; i < firstDay; i++) {
-        grid.innerHTML += `<div class="h-10"></div>`;
-      }
-
-      for (let day = 1; day <= daysInMonth; day++) {
-        const dObj = new Date(year, month, day);
-        const iso = formatDateISO(dObj);
-        const isPast = dObj < today;
-        const isSelected = iso === state.selectedDate;
-
-        if (isPast) {
-          grid.innerHTML += `
-            <button disabled class="h-10 rounded-xl text-xs font-medium text-slate-300 cursor-not-allowed bg-slate-50/50">
-              ${day}
-            </button>
-          `;
-        } else {
-          grid.innerHTML += `
-            <button onclick="selectBookingDate('${iso}')" class="h-10 rounded-xl text-xs font-semibold transition ${
-              isSelected
-                ? 'bg-brand-600 text-white shadow-sm'
-                : 'bg-slate-50 hover:bg-brand-50 text-slate-800 border border-slate-200/60'
-            }">
-              ${day}
-            </button>
-          `;
+      } else {
+        const windows = [];
+        if (activeSched.morningEnabled) {
+          windows.push(`Session 1: <strong>${minutesTo12Hour(timeToMinutes(activeSched.morningStart))} – ${minutesTo12Hour(timeToMinutes(activeSched.morningEnd))}</strong>`);
         }
-      }
-
-      // Render Available Time Slots for selectedDate
-      document.getElementById('selectedDateReadableBadge').textContent = formatReadableDate(state.selectedDate);
-      const slotsGrid = document.getElementById('timeSlotsGrid');
-
-      // Find already booked slots on this date (excluding cancelled)
-      const bookedTimesOnDate = state.appointments
-        .filter(a => a.date === state.selectedDate && a.status !== 'Cancelled')
-        .map(a => a.time);
-
-      slotsGrid.innerHTML = TIME_SLOTS.map(slot => {
-        const isBooked = bookedTimesOnDate.includes(slot);
-        const isSelected = state.selectedTime === slot;
-
-        if (isBooked) {
-          return `
-            <button disabled class="p-3 rounded-xl border border-slate-100 bg-slate-50 text-left opacity-60 cursor-not-allowed">
-              <div class="text-xs font-bold text-slate-400 line-through">${slot}</div>
-              <div class="text-[11px] font-medium text-rose-500 mt-0.5">Booked</div>
-            </button>
-          `;
+        if (activeSched.eveningEnabled) {
+          windows.push(`Session 2: <strong>${minutesTo12Hour(timeToMinutes(activeSched.eveningStart))} – ${minutesTo12Hour(timeToMinutes(activeSched.eveningEnd))}</strong>`);
         }
-
-        return `
-          <button onclick="selectBookingTime('${slot}')" class="p-3 rounded-xl border text-left transition ${
-            isSelected
-              ? 'border-brand-600 bg-brand-600 text-white shadow-sm'
-              : 'border-slate-200 bg-white hover:border-brand-400 hover:bg-brand-50/40 text-slate-800'
-          }">
-            <div class="text-xs sm:text-sm font-bold">${slot}</div>
-            <div class="text-[11px] font-medium mt-0.5 ${isSelected ? 'text-brand-100' : 'text-emerald-600'}">
-              • Open
-            </div>
-          </button>
+        bannerEl.innerHTML = `
+          <div class="flex items-center gap-2 text-slate-700">
+            <span class="w-2 h-2 rounded-full bg-teal-500"></span>
+            <span>Clinic Hours on <strong>${getReadableDateByISO(state.selectedPatientDate)}</strong>:</span>
+          </div>
+          <div class="text-teal-800">${windows.length ? windows.join(' &nbsp;|&nbsp; ') : 'No active hours'}</div>
         `;
-      }).join('');
-
-      // Enable/disable Continue button
-      const continueBtn = document.getElementById('step2ContinueBtn');
-      continueBtn.disabled = !(state.selectedDate && state.selectedTime);
-    }
-
-    function selectBookingDate(isoStr) {
-      state.selectedDate = isoStr;
-      state.selectedTime = null; // Reset time when date changes
-      renderStep2CalendarAndTimes();
-      renderBookingSummarySidebar();
-    }
-
-    function selectBookingTime(timeStr) {
-      state.selectedTime = timeStr;
-      renderStep2CalendarAndTimes();
-      renderBookingSummarySidebar();
-    }
-
-    function renderStep3Form() {
-      const srv = state.services.find(s => s.id === state.selectedServiceId);
-      if (srv) {
-        document.getElementById('confirmPriceTag').textContent = `₹${srv.price.toLocaleString('en-IN')}`;
       }
-    }
 
-    function renderBookingSummarySidebar() {
-      const srv = state.services.find(s => s.id === state.selectedServiceId);
+      // 3. Render 15-Minute Time Slots Grouped by Period
+      const slotsContainer = document.getElementById('patientSlotsContainer');
+      const allSlots = generate15MinSlotsForSchedule(activeSched);
 
-      document.getElementById('sumServiceTitle').textContent = srv ? srv.name : 'No service selected yet';
-      document.getElementById('sumServiceMeta').textContent = srv ? `${srv.category} • ${srv.duration} mins` : 'Choose a service on the left to begin';
-      document.getElementById('sumDate').textContent = state.selectedDate ? formatReadableDate(state.selectedDate) : 'Not selected';
-      document.getElementById('sumTime').textContent = state.selectedTime || 'Not selected';
-      document.getElementById('sumDuration').textContent = srv ? `${srv.duration} mins` : '—';
-      document.getElementById('sumPrice').textContent = srv ? `₹${srv.price.toLocaleString('en-IN')}` : '₹0';
-    }
-
-    function handleBookingSubmit(event) {
-      event.preventDefault();
-      const srv = state.services.find(s => s.id === state.selectedServiceId);
-      if (!srv || !state.selectedDate || !state.selectedTime) return;
-
-      const name = document.getElementById('custName').value.trim();
-      const email = document.getElementById('custEmail').value.trim();
-      const phone = document.getElementById('custPhone').value.trim();
-      const notes = document.getElementById('custNotes').value.trim();
-
-      const bookingId = 'SB-' + Math.floor(1000 + Math.random() * 9000);
-
-      const newAppointment = {
-        id: bookingId,
-        serviceId: srv.id,
-        serviceName: srv.name,
-        category: srv.category,
-        duration: srv.duration,
-        price: srv.price,
-        date: state.selectedDate,
-        time: state.selectedTime,
-        customerName: name,
-        customerEmail: email,
-        customerPhone: phone,
-        notes: notes,
-        status: 'Upcoming'
-      };
-
-      state.appointments.unshift(newAppointment);
-      saveAppointments();
-
-      // Populate Confirmation Screen
-      document.getElementById('confCustomerName').textContent = name;
-      document.getElementById('confBookingId').textContent = `#${bookingId}`;
-      document.getElementById('confServiceTitle').textContent = srv.name;
-      document.getElementById('confDateTime').textContent = `${formatReadableDate(state.selectedDate)} at ${state.selectedTime}`;
-      document.getElementById('confDuration').textContent = `${srv.duration} minutes`;
-      document.getElementById('confPrice').textContent = `₹${srv.price.toLocaleString('en-IN')}`;
-
-      state.bookingStep = 4;
-      renderBookingFlow();
-      updateHeaderBadge();
-      showToast(`Booking #${bookingId} confirmed!`);
-    }
-
-    // =========================================================================
-    // 7. PROVIDER WORKSPACE VIEW (APPOINTMENTS & SERVICES CRUD)
-    // =========================================================================
-    function updateHeaderBadge() {
-      const upcomingCount = state.appointments.filter(a => a.status === 'Upcoming').length;
-      document.getElementById('providerBadgeCount').textContent = upcomingCount;
-    }
-
-    function setProviderStatusFilter(status) {
-      state.providerStatusFilter = status;
-      renderProviderWorkspace();
-    }
-
-    function updateAppointmentStatus(id, newStatus) {
-      const app = state.appointments.find(a => a.id === id);
-      if (!app) return;
-      app.status = newStatus;
-      saveAppointments();
-      renderProviderWorkspace();
-      updateHeaderBadge();
-      showToast(`Appointment #${id} marked as ${newStatus}.`);
-    }
-
-    function renderProviderWorkspace() {
-      // KPIs
-      const total = state.appointments.length;
-      const upcoming = state.appointments.filter(a => a.status === 'Upcoming').length;
-      const completed = state.appointments.filter(a => a.status === 'Completed').length;
-      const revenue = state.appointments
-        .filter(a => a.status !== 'Cancelled')
-        .reduce((acc, item) => acc + Number(item.price || 0), 0);
-
-      document.getElementById('kpiTotalBookings').textContent = total;
-      document.getElementById('kpiUpcomingBookings').textContent = upcoming;
-      document.getElementById('kpiCompletedBookings').textContent = completed;
-      document.getElementById('kpiProjectedRevenue').textContent = `₹${revenue.toLocaleString('en-IN')}`;
-
-      // Filter Tabs styling
-      ['All', 'Upcoming', 'Completed', 'Cancelled'].forEach(st => {
-        const tab = document.getElementById(`filterTab-${st}`);
-        if (state.providerStatusFilter === st) {
-          tab.className = 'px-3 py-1.5 rounded-lg text-xs font-semibold bg-white text-slate-900 shadow-2xs transition';
-        } else {
-          tab.className = 'px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-600 hover:text-slate-900 transition';
-        }
-      });
-
-      // Appointments List
-      const filteredApps = state.providerStatusFilter === 'All'
-        ? state.appointments
-        : state.appointments.filter(a => a.status === state.providerStatusFilter);
-
-      const appListEl = document.getElementById('providerAppointmentsList');
-      if (filteredApps.length === 0) {
-        appListEl.innerHTML = `
-          <div class="p-8 rounded-2xl border border-dashed border-slate-200 text-center text-sm text-slate-500">
-            No ${state.providerStatusFilter.toLowerCase()} appointments found.
+      if (allSlots.length === 0) {
+        slotsContainer.innerHTML = `
+          <div class="p-8 rounded-2xl border border-dashed border-slate-200 text-center">
+            <p class="text-sm font-semibold text-slate-700">No 15-minute slots available on this date.</p>
+            <p class="text-xs text-slate-500 mt-1">Select another highlighted date above within the 1-week booking window.</p>
           </div>
         `;
       } else {
-        appListEl.innerHTML = filteredApps.map(app => {
-          let badgeStyle = 'bg-brand-50 text-brand-700 border-brand-200/70';
-          if (app.status === 'Completed') badgeStyle = 'bg-emerald-50 text-emerald-700 border-emerald-200/70';
-          if (app.status === 'Cancelled') badgeStyle = 'bg-rose-50 text-rose-700 border-rose-200/70';
+        const periods = ['Morning', 'Afternoon', 'Evening'];
+        slotsContainer.innerHTML = periods.map(period => {
+          const periodSlots = allSlots.filter(s => s.period === period);
+          if (periodSlots.length === 0) return '';
+
+          const buttonsHtml = periodSlots.map(slot => {
+            const status = getSlotAvailabilityStatus(state.selectedPatientDate, slot);
+            const isSelected = state.selectedSlotObj && state.selectedSlotObj.start24 === slot.start24;
+
+            if (status === 'booked') {
+              return `
+                <button
+                  type="button"
+                  disabled
+                  title="Already booked by another patient"
+                  class="px-3 py-2.5 rounded-xl border border-slate-200/80 bg-slate-100 text-slate-400 text-xs font-semibold cursor-not-allowed flex flex-col items-center justify-center"
+                >
+                  <span class="line-through">${slot.shortLabel}</span>
+                  <span class="text-[10px] font-bold text-rose-500 mt-0.5">Booked</span>
+                </button>
+              `;
+            }
+
+            if (status === 'passed') {
+              return `
+                <button
+                  type="button"
+                  disabled
+                  title="Time has already passed today"
+                  class="px-3 py-2.5 rounded-xl border border-slate-100 bg-slate-50 text-slate-300 text-xs font-medium cursor-not-allowed flex flex-col items-center justify-center"
+                >
+                  <span>${slot.shortLabel}</span>
+                  <span class="text-[10px] mt-0.5">Passed</span>
+                </button>
+              `;
+            }
+
+            return `
+              <button
+                type="button"
+                onclick="selectPatientTimeSlot('${slot.start24}')"
+                class="px-3 py-2.5 rounded-xl border text-xs font-bold transition flex flex-col items-center justify-center ${
+                  isSelected
+                    ? 'border-teal-600 bg-teal-600 text-white shadow-sm ring-4 ring-teal-500/15'
+                    : 'border-slate-200 bg-white hover:border-teal-500 hover:bg-teal-50/50 text-slate-800'
+                }"
+              >
+                <span>${slot.shortLabel}</span>
+                <span class="text-[10px] font-medium mt-0.5 ${isSelected ? 'text-teal-100' : 'text-teal-600'}">
+                  15 min
+                </span>
+              </button>
+            `;
+          }).join('');
 
           return `
-            <div class="p-4 sm:p-5 rounded-2xl border border-slate-200/80 hover:border-slate-300 transition bg-slate-50/40">
-              <div class="flex flex-wrap items-start justify-between gap-3">
-                <div>
-                  <div class="flex items-center gap-2">
-                    <span class="font-mono text-xs font-bold text-slate-400">#${escapeHtml(app.id)}</span>
-                    <span class="px-2.5 py-0.5 rounded-full text-[11px] font-semibold border ${badgeStyle}">
-                      ${app.status}
-                    </span>
-                    <span class="text-xs font-semibold text-slate-500">• ₹${Number(app.price).toLocaleString('en-IN')}</span>
-                  </div>
-                  <h3 class="text-base font-bold text-slate-900 mt-1">${escapeHtml(app.serviceName)}</h3>
-                  <div class="text-xs font-semibold text-brand-700 mt-0.5">
-                    ${formatReadableDate(app.date)} at ${escapeHtml(app.time)} (${app.duration} mins)
-                  </div>
-                </div>
-
-                <!-- Quick Status Actions -->
-                <div class="flex items-center gap-2">
-                  ${app.status !== 'Completed' ? `
-                    <button onclick="updateAppointmentStatus('${app.id}', 'Completed')" class="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold transition">
-                      Mark Completed
-                    </button>
-                  ` : ''}
-                  ${app.status !== 'Cancelled' ? `
-                    <button onclick="updateAppointmentStatus('${app.id}', 'Cancelled')" class="px-3 py-1.5 rounded-xl border border-slate-200 bg-white hover:bg-rose-50 hover:text-rose-700 hover:border-rose-200 text-slate-600 text-xs font-semibold transition">
-                      Cancel
-                    </button>
-                  ` : ''}
-                </div>
+            <div>
+              <h4 class="text-xs font-bold text-slate-600 mb-2.5 flex items-center gap-2">
+                <span>${period} Session</span>
+                <span class="text-[11px] font-normal text-slate-400">(${periodSlots.length} slots)</span>
+              </h4>
+              <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2.5">
+                ${buttonsHtml}
               </div>
-
-              <!-- Customer Contact Strip -->
-              <div class="mt-3 pt-3 border-t border-slate-200/60 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-600">
-                <div class="font-semibold text-slate-800">${escapeHtml(app.customerName)}</div>
-                <div class="flex flex-wrap items-center gap-3 text-slate-500">
-                  <span>${escapeHtml(app.customerEmail)}</span>
-                  <span>•</span>
-                  <span>${escapeHtml(app.customerPhone)}</span>
-                </div>
-              </div>
-              ${app.notes ? `
-                <div class="mt-2 text-xs text-slate-500 bg-white p-2.5 rounded-xl border border-slate-200/60">
-                  <span class="font-semibold text-slate-700">Note:</span> ${escapeHtml(app.notes)}
-                </div>
-              ` : ''}
             </div>
           `;
         }).join('');
       }
 
-      // Provider Services List
-      const srvListEl = document.getElementById('providerServicesList');
-      srvListEl.innerHTML = state.services.map(srv => `
-        <div class="p-4 rounded-2xl border border-slate-200/80 bg-slate-50/40 flex items-start justify-between gap-3">
-          <div>
-            <div class="flex items-center gap-2">
-              <span class="text-sm font-bold text-slate-900">${escapeHtml(srv.name)}</span>
-              <span class="text-[11px] font-semibold px-2 py-0.5 rounded-md bg-white border border-slate-200 text-slate-600">
-                ${escapeHtml(srv.category)}
-              </span>
-            </div>
-            <p class="text-xs text-slate-500 mt-1 line-clamp-2">${escapeHtml(srv.description)}</p>
-            <div class="text-xs font-semibold text-slate-700 mt-2">
-              ${srv.duration} mins • ₹${Number(srv.price).toLocaleString('en-IN')}
-            </div>
-          </div>
-
-          <div class="flex items-center gap-1.5 shrink-0">
-            <button onclick="openServiceModal('${srv.id}')" class="p-2 rounded-xl bg-white border border-slate-200 text-slate-600 hover:text-brand-600 hover:border-brand-300 transition" title="Edit service">
-              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-            </button>
-            <button onclick="deleteService('${srv.id}')" class="p-2 rounded-xl bg-white border border-slate-200 text-slate-600 hover:text-rose-600 hover:border-rose-300 transition" title="Delete service">
-              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>
-            </button>
-          </div>
-        </div>
-      `).join('');
+      // 4. Update Summary Sidebar & Form Button State
+      updatePatientSummaryAndFormState();
     }
 
-    // =========================================================================
-    // 8. CUSTOM SERVICE MODAL (ADD / EDIT / DELETE)
-    // =========================================================================
-    function openServiceModal(serviceId = null) {
-      const modal = document.getElementById('serviceModal');
-      const titleEl = document.getElementById('serviceModalTitle');
-      const form = document.getElementById('serviceForm');
-      form.reset();
-
-      if (serviceId) {
-        const srv = state.services.find(s => s.id === serviceId);
-        if (!srv) return;
-        titleEl.textContent = 'Edit Service';
-        document.getElementById('editServiceId').value = srv.id;
-        document.getElementById('srvName').value = srv.name;
-        document.getElementById('srvDuration').value = srv.duration;
-        document.getElementById('srvPrice').value = srv.price;
-        document.getElementById('srvCategory').value = srv.category;
-        document.getElementById('srvDescription').value = srv.description;
-      } else {
-        titleEl.textContent = 'Add Custom Service';
-        document.getElementById('editServiceId').value = '';
-      }
-
-      modal.classList.remove('hidden');
+    function selectPatientDate(isoDate) {
+      state.selectedPatientDate = isoDate;
+      state.selectedSlotObj = null; // Clear slot when switching days
+      renderPatientPortal();
     }
 
-    function closeServiceModal() {
-      document.getElementById('serviceModal').classList.add('hidden');
-    }
+    function selectPatientTimeSlot(start24) {
+      const sched = state.schedules[state.selectedPatientDate];
+      const allSlots = generate15MinSlotsForSchedule(sched);
+      const found = allSlots.find(s => s.start24 === start24);
+      if (!found) return;
 
-    function handleSaveService(event) {
-      event.preventDefault();
-      const id = document.getElementById('editServiceId').value;
-      const name = document.getElementById('srvName').value.trim();
-      const duration = parseInt(document.getElementById('srvDuration').value, 10);
-      const price = parseInt(document.getElementById('srvPrice').value, 10);
-      const category = document.getElementById('srvCategory').value.trim();
-      const description = document.getElementById('srvDescription').value.trim();
-
-      if (id) {
-        const idx = state.services.findIndex(s => s.id === id);
-        if (idx !== -1) {
-          state.services[idx] = { id, name, duration, price, category, description };
-          showToast(`Updated "${name}".`);
-        }
-      } else {
-        const newSrv = {
-          id: 'srv-' + Date.now(),
-          name,
-          duration,
-          price,
-          category,
-          description
-        };
-        state.services.push(newSrv);
-        showToast(`Added "${name}" to your service menu.`);
-      }
-
-      saveServices();
-      closeServiceModal();
-      renderAll();
-    }
-
-    function deleteService(serviceId) {
-      if (state.services.length <= 1) {
-        showToast('At least one active service is required.');
+      if (getSlotAvailabilityStatus(state.selectedPatientDate, found) !== 'available') {
+        showToast('Sorry, this slot is no longer available.');
+        renderPatientPortal();
         return;
       }
-      state.services = state.services.filter(s => s.id !== serviceId);
-      if (state.selectedServiceId === serviceId) {
-        state.selectedServiceId = null;
+
+      state.selectedSlotObj = found;
+      renderPatientPortal();
+
+      // Smoothly guide focus toward Step 2 form on mobile/tablet
+      const step2El = document.getElementById('patientDetailsSection');
+      if (window.innerWidth < 1024 && step2El) {
+        step2El.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       }
-      saveServices();
-      renderAll();
-      showToast('Service removed.');
+    }
+
+    function updatePatientSummaryAndFormState() {
+      document.getElementById('summaryDateText').textContent = getReadableDateByISO(state.selectedPatientDate);
+
+      const slotTextEl = document.getElementById('summarySlotText');
+      const promptBadge = document.getElementById('step2SlotPromptBadge');
+      const submitBtn = document.getElementById('confirmPatientBookingBtn');
+
+      if (state.selectedSlotObj) {
+        slotTextEl.textContent = state.selectedSlotObj.label;
+        slotTextEl.className = 'text-sm font-extrabold text-teal-700 mt-0.5';
+
+        promptBadge.textContent = `Selected: ${state.selectedSlotObj.label}`;
+        promptBadge.className = 'text-xs font-semibold px-3 py-1 rounded-full bg-teal-50 text-teal-700 border border-teal-200';
+
+        submitBtn.disabled = false;
+      } else {
+        slotTextEl.textContent = 'No 15-min slot selected yet';
+        slotTextEl.className = 'text-sm font-semibold text-slate-400 mt-0.5';
+
+        promptBadge.textContent = 'Select a 15-min slot above first';
+        promptBadge.className = 'text-xs font-semibold px-3 py-1 rounded-full bg-amber-50 text-amber-700 border border-amber-200';
+
+        submitBtn.disabled = true;
+      }
+    }
+
+    function appendSymptomTag(symptomText) {
+      const textarea = document.getElementById('patientProblemInput');
+      const current = textarea.value.trim();
+      if (!current) {
+        textarea.value = symptomText;
+      } else if (!current.toLowerCase().includes(symptomText.toLowerCase())) {
+        textarea.value = `${current}, ${symptomText}`;
+      }
+      textarea.focus();
+    }
+
+    function handlePatientBookingSubmit(event) {
+      event.preventDefault();
+      if (!state.selectedSlotObj) {
+        showToast('Please select an available 15-minute time slot first.');
+        return;
+      }
+
+      // Final real-time collision check
+      if (getSlotAvailabilityStatus(state.selectedPatientDate, state.selectedSlotObj) !== 'available') {
+        showToast('That 15-minute slot was just booked. Please pick another time.');
+        state.selectedSlotObj = null;
+        renderPatientPortal();
+        return;
+      }
+
+      const name = document.getElementById('patientNameInput').value.trim();
+      const phone = document.getElementById('patientPhoneInput').value.trim();
+      const problem = document.getElementById('patientProblemInput').value.trim();
+
+      const tokenId = 'DR-' + Math.floor(1000 + Math.random() * 9000);
+
+      const newBooking = {
+        id: tokenId,
+        date: state.selectedPatientDate,
+        start24: state.selectedSlotObj.start24,
+        slotLabel: state.selectedSlotObj.label,
+        patientName: name,
+        patientPhone: phone,
+        problem: problem,
+        status: 'Booked'
+      };
+
+      state.appointments.unshift(newBooking);
+      saveAppointments();
+
+      // Populate confirmation receipt
+      document.getElementById('receiptPatientName').textContent = name;
+      document.getElementById('receiptTokenId').textContent = `#${tokenId}`;
+      document.getElementById('receiptDate').textContent = getReadableDateByISO(state.selectedPatientDate);
+      document.getElementById('receiptTimeSlot').textContent = `${state.selectedSlotObj.label} (15 mins)`;
+      document.getElementById('receiptPhone').textContent = phone;
+      document.getElementById('receiptProblem').textContent = problem;
+
+      // Toggle workspace -> receipt
+      document.getElementById('patientBookingWorkspace').classList.add('hidden');
+      document.getElementById('patientConfirmationScreen').classList.remove('hidden');
+
+      updateAdminHeaderBadge();
+      showToast(`Appointment #${tokenId} confirmed!`);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function bookAnotherAppointment() {
+      state.selectedSlotObj = null;
+      document.getElementById('patientBookingForm').reset();
+      document.getElementById('patientConfirmationScreen').classList.add('hidden');
+      document.getElementById('patientBookingWorkspace').classList.remove('hidden');
+      renderPatientPortal();
     }
 
     // =========================================================================
-    // 9. UTILITIES & MASTER RENDER
+    // 6. DOCTOR / ADMIN PANEL RENDERING & DAILY AVAILABILITY MANAGEMENT
+    // =========================================================================
+    function updateAdminHeaderBadge() {
+      const activeCount = state.appointments.filter(a => a.status === 'Booked').length;
+      document.getElementById('adminBadgeCount').textContent = activeCount;
+    }
+
+    function renderAdminPanel() {
+      const days = getRolling7Days();
+      const todayISO = days[0].iso;
+      const valid7DayISOs = new Set(days.map(d => d.iso));
+
+      // 1. Update KPI Cards
+      const todayCount = state.appointments.filter(a => a.date === todayISO && a.status !== 'Cancelled').length;
+      const upcoming7Count = state.appointments.filter(a => valid7DayISOs.has(a.date) && a.status === 'Booked').length;
+      const openSlotsToday = countAvailableSlotsForDate(todayISO);
+      const completedCount = state.appointments.filter(a => a.status === 'Completed').length;
+
+      document.getElementById('kpiTodayCount').textContent = todayCount;
+      document.getElementById('kpiUpcoming7Days').textContent = upcoming7Count;
+      document.getElementById('kpiOpenSlotsToday').textContent = openSlotsToday;
+      document.getElementById('kpiCompletedVisits').textContent = completedCount;
+
+      // 2. Render 7-Day Selector Pills in Admin Availability Manager
+      if (!valid7DayISOs.has(state.adminEditingDate)) {
+        state.adminEditingDate = todayISO;
+      }
+
+      const selectorGrid = document.getElementById('adminDaySelectorGrid');
+      selectorGrid.innerHTML = days.map(d => {
+        const isEditing = d.iso === state.adminEditingDate;
+        const sched = state.schedules[d.iso];
+        const isAvail = sched && sched.isAvailable;
+
+        return `
+          <button
+            type="button"
+            onclick="selectAdminEditingDate('${d.iso}')"
+            class="p-2.5 rounded-xl border text-center transition flex flex-col items-center ${
+              isEditing
+                ? 'border-teal-600 bg-teal-600 text-white shadow-xs'
+                : 'border-slate-200 bg-slate-50 hover:bg-white text-slate-700'
+            }"
+          >
+            <span class="text-[10px] font-bold uppercase ${isEditing ? 'text-teal-100' : 'text-slate-400'}">${d.dayShort}</span>
+            <span class="text-xs font-extrabold mt-0.5">${d.dateNum} ${d.monthShort}</span>
+            <span class="w-1.5 h-1.5 rounded-full mt-1 ${
+              isEditing ? 'bg-white' : isAvail ? 'bg-emerald-500' : 'bg-rose-400'
+            }"></span>
+          </button>
+        `;
+      }).join('');
+
+      // 3. Render Selected Day Availability Form
+      renderAdminDayEditorForm();
+
+      // 4. Populate Date Filter Dropdown for Patient Queue
+      const dateSelect = document.getElementById('adminDateFilterSelect');
+      dateSelect.innerHTML = `
+        <option value="ALL_7" ${state.adminDateFilter === 'ALL_7' ? 'selected' : ''}>All 7 Days</option>
+        ${days.map(d => `
+          <option value="${d.iso}" ${state.adminDateFilter === d.iso ? 'selected' : ''}>
+            ${d.dayShort} (${d.dateNum} ${d.monthShort})
+          </option>
+        `).join('')}
+      `;
+
+      // Update Status Filter Tabs
+      ['All', 'Booked', 'Completed', 'Cancelled'].forEach(st => {
+        const tab = document.getElementById(`adminTab-${st}`);
+        tab.className = state.adminStatusFilter === st
+          ? 'px-2.5 py-1 rounded-lg text-xs font-semibold bg-white text-slate-900 shadow-2xs transition'
+          : 'px-2.5 py-1 rounded-lg text-xs font-semibold text-slate-600 hover:text-slate-900 transition';
+      });
+
+      // 5. Render Booked Patient Queue
+      renderAdminAppointmentsQueue();
+    }
+
+    function selectAdminEditingDate(isoDate) {
+      state.adminEditingDate = isoDate;
+      renderAdminPanel();
+    }
+
+    function renderAdminDayEditorForm() {
+      const iso = state.adminEditingDate;
+      const sched = state.schedules[iso];
+      const generatedSlots = generate15MinSlotsForSchedule(sched);
+      const editorBox = document.getElementById('adminDayEditorBox');
+
+      editorBox.innerHTML = `
+        <div class="flex items-center justify-between pb-3 border-b border-slate-200/80">
+          <div>
+            <span class="text-[11px] font-bold uppercase tracking-wider text-teal-700">Editing Schedule For</span>
+            <h3 class="text-base font-extrabold text-slate-900">${getReadableDateByISO(iso)}</h3>
+          </div>
+          <span class="px-2.5 py-1 rounded-lg text-xs font-bold ${sched.isAvailable ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-700'}">
+            ${sched.isAvailable ? `${generatedSlots.length} × 15m slots` : 'Day Off'}
+          </span>
+        </div>
+
+        <!-- Doctor Available Toggle -->
+        <div class="flex items-center justify-between bg-white p-3.5 rounded-xl border border-slate-200/80">
+          <div>
+            <div class="text-sm font-bold text-slate-800">Doctor Available on this Day</div>
+            <div class="text-xs text-slate-500">Turn off if doctor is on leave or hospital rounds</div>
+          </div>
+          <label class="relative inline-flex items-center cursor-pointer">
+            <input type="checkbox" id="adminToggleAvailable" ${sched.isAvailable ? 'checked' : ''} onchange="toggleAdminDayAvailable(this.checked)" class="sr-only peer" />
+            <div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-teal-600"></div>
+          </label>
+        </div>
+
+        <!-- Time Blocks (Shown when Available) -->
+        <div class="${sched.isAvailable ? 'space-y-4' : 'opacity-40 pointer-events-none space-y-4'}">
+          <!-- Session 1 (Morning) -->
+          <div class="bg-white p-3.5 rounded-xl border border-slate-200/80 space-y-2.5">
+            <div class="flex items-center justify-between">
+              <label class="flex items-center gap-2 text-xs font-bold text-slate-800 cursor-pointer">
+                <input type="checkbox" id="adminMorningEnabled" ${sched.morningEnabled ? 'checked' : ''} class="rounded text-teal-600 focus:ring-teal-500" />
+                <span>Session 1 (Morning / Early)</span>
+              </label>
+            </div>
+            <div class="grid grid-cols-2 gap-2.5">
+              <div>
+                <span class="block text-[10px] font-semibold uppercase text-slate-400 mb-1">Start Time</span>
+                <select id="adminMorningStart" class="w-full px-2.5 py-2 rounded-lg border border-slate-200 text-xs font-semibold text-slate-800 bg-slate-50">
+                  ${build15MinTimeOptions(sched.morningStart)}
+                </select>
+              </div>
+              <div>
+                <span class="block text-[10px] font-semibold uppercase text-slate-400 mb-1">End Time</span>
+                <select id="adminMorningEnd" class="w-full px-2.5 py-2 rounded-lg border border-slate-200 text-xs font-semibold text-slate-800 bg-slate-50">
+                  ${build15MinTimeOptions(sched.morningEnd)}
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Session 2 (Afternoon / Evening) -->
+          <div class="bg-white p-3.5 rounded-xl border border-slate-200/80 space-y-2.5">
+            <div class="flex items-center justify-between">
+              <label class="flex items-center gap-2 text-xs font-bold text-slate-800 cursor-pointer">
+                <input type="checkbox" id="adminEveningEnabled" ${sched.eveningEnabled ? 'checked' : ''} class="rounded text-teal-600 focus:ring-teal-500" />
+                <span>Session 2 (Afternoon / Evening)</span>
+              </label>
+            </div>
+            <div class="grid grid-cols-2 gap-2.5">
+              <div>
+                <span class="block text-[10px] font-semibold uppercase text-slate-400 mb-1">Start Time</span>
+                <select id="adminEveningStart" class="w-full px-2.5 py-2 rounded-lg border border-slate-200 text-xs font-semibold text-slate-800 bg-slate-50">
+                  ${build15MinTimeOptions(sched.eveningStart)}
+                </select>
+              </div>
+              <div>
+                <span class="block text-[10px] font-semibold uppercase text-slate-400 mb-1">End Time</span>
+                <select id="adminEveningEnd" class="w-full px-2.5 py-2 rounded-lg border border-slate-200 text-xs font-semibold text-slate-800 bg-slate-50">
+                  ${build15MinTimeOptions(sched.eveningEnd)}
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="pt-2 flex flex-wrap items-center justify-between gap-2">
+          <button type="button" onclick="copyCurrentDayToNextDay()" class="px-3.5 py-2.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 text-slate-700 text-xs font-semibold transition">
+            Copy to Next Day
+          </button>
+          <button type="button" onclick="saveAdminDaySchedule()" class="px-5 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold shadow-sm transition">
+            Save Day Schedule
+          </button>
+        </div>
+      `;
+    }
+
+    function toggleAdminDayAvailable(isChecked) {
+      const iso = state.adminEditingDate;
+      state.schedules[iso].isAvailable = isChecked;
+      saveSchedules();
+      renderAdminPanel();
+    }
+
+    function readAdminEditorValues() {
+      const isAvailable = document.getElementById('adminToggleAvailable').checked;
+      const morningEnabled = document.getElementById('adminMorningEnabled').checked;
+      const morningStart = document.getElementById('adminMorningStart').value;
+      const morningEnd = document.getElementById('adminMorningEnd').value;
+      const eveningEnabled = document.getElementById('adminEveningEnabled').checked;
+      const eveningStart = document.getElementById('adminEveningStart').value;
+      const eveningEnd = document.getElementById('adminEveningEnd').value;
+
+      return {
+        isAvailable,
+        morningEnabled,
+        morningStart,
+        morningEnd,
+        eveningEnabled,
+        eveningStart,
+        eveningEnd
+      };
+    }
+
+    function saveAdminDaySchedule() {
+      const updated = readAdminEditorValues();
+
+      if (updated.isAvailable) {
+        if (updated.morningEnabled && timeToMinutes(updated.morningEnd) <= timeToMinutes(updated.morningStart)) {
+          showToast('Session 1 End Time must be later than Start Time.');
+          return;
+        }
+        if (updated.eveningEnabled && timeToMinutes(updated.eveningEnd) <= timeToMinutes(updated.eveningStart)) {
+          showToast('Session 2 End Time must be later than Start Time.');
+          return;
+        }
+      }
+
+      state.schedules[state.adminEditingDate] = updated;
+      saveSchedules();
+      renderAdminPanel();
+      const slotCount = generate15MinSlotsForSchedule(updated).length;
+      showToast(`Saved! ${slotCount} fifteen-minute slots configured for ${getReadableDateByISO(state.adminEditingDate)}.`);
+    }
+
+    function copyCurrentDayToNextDay() {
+      const days = getRolling7Days();
+      const idx = days.findIndex(d => d.iso === state.adminEditingDate);
+      if (idx === -1 || idx >= days.length - 1) {
+        showToast('Already on the last day of the 7-day window.');
+        return;
+      }
+
+      const currentValues = readAdminEditorValues();
+      state.schedules[state.adminEditingDate] = currentValues;
+
+      const nextISO = days[idx + 1].iso;
+      state.schedules[nextISO] = { ...currentValues };
+      state.adminEditingDate = nextISO;
+
+      saveSchedules();
+      renderAdminPanel();
+      showToast(`Copied schedule to ${getReadableDateByISO(nextISO)}.`);
+    }
+
+    function setAdminDateFilter(val) {
+      state.adminDateFilter = val;
+      renderAdminAppointmentsQueue();
+    }
+
+    function setAdminStatusFilter(status) {
+      state.adminStatusFilter = status;
+      renderAdminPanel();
+    }
+
+    function changeAppointmentStatus(id, newStatus) {
+      const item = state.appointments.find(a => a.id === id);
+      if (!item) return;
+      item.status = newStatus;
+      saveAppointments();
+      updateAdminHeaderBadge();
+      renderAdminPanel();
+      showToast(
+        newStatus === 'Cancelled'
+          ? `Appointment #${id} cancelled — 15-min slot is now open again.`
+          : `Appointment #${id} marked as ${newStatus}.`
+      );
+    }
+
+    function renderAdminAppointmentsQueue() {
+      const days = getRolling7Days();
+      const valid7Set = new Set(days.map(d => d.iso));
+
+      let list = state.appointments.filter(app => {
+        const matchesDate = state.adminDateFilter === 'ALL_7'
+          ? valid7Set.has(app.date)
+          : app.date === state.adminDateFilter;
+        const matchesStatus = state.adminStatusFilter === 'All' || app.status === state.adminStatusFilter;
+        return matchesDate && matchesStatus;
+      });
+
+      // Sort chronologically by date, then start24
+      list.sort((a, b) => {
+        if (a.date !== b.date) return a.date.localeCompare(b.date);
+        return a.start24.localeCompare(b.start24);
+      });
+
+      const container = document.getElementById('adminAppointmentsList');
+      if (list.length === 0) {
+        container.innerHTML = `
+          <div class="p-8 rounded-2xl border border-dashed border-slate-200 text-center text-sm text-slate-500">
+            No patient appointments match the selected filter.
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = list.map(app => {
+        let badgeStyle = 'bg-teal-50 text-teal-700 border-teal-200';
+        if (app.status === 'Completed') badgeStyle = 'bg-emerald-50 text-emerald-700 border-emerald-200';
+        if (app.status === 'Cancelled') badgeStyle = 'bg-rose-50 text-rose-700 border-rose-200';
+
+        return `
+          <div class="p-4 sm:p-5 rounded-2xl border border-slate-200/90 bg-slate-50/50 hover:bg-white transition">
+            <div class="flex flex-wrap items-start justify-between gap-3">
+              <div>
+                <div class="flex flex-wrap items-center gap-2">
+                  <span class="font-mono text-xs font-extrabold text-slate-500">#${escapeHtml(app.id)}</span>
+                  <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold border ${badgeStyle}">
+                    ${app.status}
+                  </span>
+                  <span class="text-xs font-bold text-teal-700 bg-teal-50/80 px-2.5 py-0.5 rounded-lg">
+                    ${escapeHtml(app.slotLabel)}
+                  </span>
+                </div>
+                <h3 class="text-base font-extrabold text-slate-900 mt-1.5">${escapeHtml(app.patientName)}</h3>
+                <div class="flex flex-wrap items-center gap-3 text-xs text-slate-500 mt-0.5">
+                  <span class="font-semibold text-slate-700">${getReadableDateByISO(app.date)}</span>
+                  <span>•</span>
+                  <a href="tel:${escapeHtml(app.patientPhone)}" class="font-semibold text-teal-700 hover:underline">
+                    ${escapeHtml(app.patientPhone)}
+                  </a>
+                </div>
+              </div>
+
+              <!-- Status Action Buttons -->
+              <div class="flex items-center gap-2">
+                ${app.status === 'Booked' ? `
+                  <button
+                    type="button"
+                    onclick="changeAppointmentStatus('${app.id}', 'Completed')"
+                    class="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold transition"
+                  >
+                    Mark Completed
+                  </button>
+                  <button
+                    type="button"
+                    onclick="changeAppointmentStatus('${app.id}', 'Cancelled')"
+                    class="px-3 py-1.5 rounded-xl border border-slate-200 bg-white hover:bg-rose-50 hover:text-rose-700 hover:border-rose-200 text-slate-600 text-xs font-semibold transition"
+                  >
+                    Cancel Slot
+                  </button>
+                ` : ''}
+              </div>
+            </div>
+
+            <!-- Medical Problem Highlight Box -->
+            <div class="mt-3.5 p-3 rounded-xl bg-white border border-slate-200/80">
+              <span class="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-0.5">
+                Medical Problem / Symptoms
+              </span>
+              <p class="text-xs sm:text-sm font-medium text-slate-800 leading-relaxed">
+                ${escapeHtml(app.problem)}
+              </p>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // =========================================================================
+    // 7. HELPERS & INITIALIZATION
     // =========================================================================
     function escapeHtml(str) {
       if (typeof str !== 'string') return str;
@@ -1571,20 +1581,17 @@
     }
 
     function renderAll() {
-      updateHeaderBadge();
-      if (state.activeView === 'hero') {
-        renderHeroPreviewWidget();
-      } else if (state.activeView === 'booking') {
-        renderBookingFlow();
-      } else if (state.activeView === 'provider') {
-        renderProviderWorkspace();
+      updateAdminHeaderBadge();
+      if (state.activeView === 'patient') {
+        renderPatientPortal();
+      } else {
+        renderAdminPanel();
       }
     }
 
-    // Bootstrap on load
     window.addEventListener('DOMContentLoaded', () => {
-      loadFromStorage();
-      renderAll();
+      loadAppState();
+      switchMainView('patient');
     });
   </script>
 </body>
